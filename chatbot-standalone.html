@@ -24,7 +24,8 @@
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       height: 100%;
       margin: 0;
@@ -463,7 +464,9 @@
        MOBILE RESPONSIVENESS
        ========================================================================== */
     @media (max-width: 600px) {
-      html, body {
+
+      html,
+      body {
         background: #0d1e38;
       }
 
@@ -718,7 +721,7 @@
       }
 
       // Optional helper to append bot message (only when called externally, not automatic)
-      window.addBotMessage = function(htmlContent) {
+      window.addBotMessage = function (htmlContent) {
         const botRow = document.createElement("div");
         botRow.className = "message-row bot";
         botRow.innerHTML = `
@@ -752,7 +755,7 @@
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
-        webhookUrl: 'https://spartamax.app.n8n.cloud/webhook/c00eb95f-55c9-4fec-a382-b252dc5962aa/chat'
+      webhookUrl: 'https://spartamax.app.n8n.cloud/webhook/c00eb95f-55c9-4fec-a382-b252dc5962aa/chat'
     });
   </script>
 
