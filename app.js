@@ -24,32 +24,9 @@ function initChatbot() {
   const restartButton = document.getElementById("restartChatBtn");
   const typingIndicator = document.getElementById("typingIndicator");
 
-  // Initial welcome state template matching user's template
-  const initialBotHTML = `
-    <!-- BOT MESSAGE -->
-    <div class="message-row bot">
-      <div class="message-meta">
-        <span>Olivia</span>
-        <span>·</span>
-        <span>Online</span>
-      </div>
-      <div class="message bot-message">
-        Hello! 👋 I'm your virtual assistant.
-        <br><br>
-        How can I help you today?
-      </div>
-      <div class="quick-actions">
-        <button class="quick-button" data-action="appointment">📅 Book an Appointment</button>
-        <button class="quick-button" data-action="specialist">🩺 Find a Specialist</button>
-        <button class="quick-button" data-action="billing">💳 Insurance & Billing</button>
-        <button class="quick-button" data-action="location">📍 Location & Parking</button>
-      </div>
-    </div>
-  `;
-
-  // Reset to initial state
+  // Reset chat to empty state
   window.resetChat = function() {
-    chatBody.innerHTML = initialBotHTML + `
+    chatBody.innerHTML = `
       <!-- TYPING INDICATOR -->
       <div class="typing" id="typingIndicator">
         <div class="typing-dots">
@@ -60,7 +37,6 @@ function initChatbot() {
         <span>Olivia is typing...</span>
       </div>
     `;
-    attachQuickButtonListeners();
   };
 
   // Toggle chat window open / closed
@@ -121,17 +97,11 @@ function initChatbot() {
     });
   }
 
-  // Add User Message to Chat UI
+  // Add User Message to Chat UI (clean message bubble, no time code)
   function addUserMessage(text) {
-    const timeStr = getCurrentTime();
     const userRow = document.createElement("div");
     userRow.className = "message-row user";
     userRow.innerHTML = `
-      <div class="message-meta">
-        <span>You</span>
-        <span>·</span>
-        <span>${timeStr}</span>
-      </div>
       <div class="message user-message">${escapeHTML(text)}</div>
     `;
 
@@ -153,14 +123,13 @@ function initChatbot() {
     }
   }
 
-  // Add Bot Response to Chat UI
+  // Add Bot Response to Chat UI (clean message bubble, no time code)
   function addBotMessage(htmlContent, quickActions = []) {
     showTyping(true);
     const delay = Math.min(1100, Math.max(500, htmlContent.length * 5));
 
     setTimeout(() => {
       showTyping(false);
-      const timeStr = getCurrentTime();
       const botRow = document.createElement("div");
       botRow.className = "message-row bot";
 
@@ -172,11 +141,6 @@ function initChatbot() {
       }
 
       botRow.innerHTML = `
-        <div class="message-meta">
-          <span>Olivia</span>
-          <span>·</span>
-          <span>${timeStr}</span>
-        </div>
         <div class="message bot-message">${htmlContent}</div>
         ${actionsHTML}
       `;
@@ -407,11 +371,6 @@ function initChatbot() {
 
   function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
-  }
-
-  function getCurrentTime() {
-    const now = new Date();
-    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   function escapeHTML(str) {
