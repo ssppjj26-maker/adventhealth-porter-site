@@ -473,11 +473,15 @@
       .chat-launcher {
         right: 12px;
         bottom: max(16px, env(safe-area-inset-bottom));
-        display: flex;
+        display: none;
         align-items: center;
         gap: 8px;
         max-width: calc(100vw - 24px);
         z-index: 9999;
+      }
+
+      body.chat-closed .chat-launcher {
+        display: flex !important;
       }
 
       .launcher-label {
@@ -671,12 +675,15 @@
 
       // Toggle chat window open / closed
       window.toggleChat = function () {
-        chatWindow.classList.toggle("active");
-        if (chatWindow.classList.contains("active")) {
+        const isClosed = document.body.classList.toggle("chat-closed");
+        if (isClosed) {
+          chatWindow.style.display = "none";
+        } else {
+          chatWindow.style.display = "flex";
           setTimeout(() => {
             chatInput.focus();
             scrollToBottom();
-          }, 250);
+          }, 150);
         }
       };
 
