@@ -22,36 +22,7 @@
 <body>
 
   <!-- ==========================================================================
-       TOP UTILITY BAR
-       ========================================================================== -->
-  <aside class="top-bar" aria-label="Quick Hospital Links">
-    <div class="top-bar-inner">
-      <div class="top-bar-left">
-        <span class="hospital-badge">
-          <span class="pulse-indicator"></span>
-          AdventHealth Porter · Denver, CO
-        </span>
-        <span style="opacity: 0.6">|</span>
-        <span>📍 2525 S Downing St, Denver, CO 80210</span>
-      </div>
-
-      <div class="top-bar-right">
-        <ul class="top-bar-links">
-          <li><a href="#visitor-guide">For Visitors</a></li>
-          <li><a href="#services">Medical Services</a></li>
-          <li><a href="#location">Directions & Parking</a></li>
-          <li><a href="#" onclick="openChatWithTopic('billing'); return false;">Pay a Bill</a></li>
-          <li><a href="#" onclick="openChatWithTopic('appointment'); return false;">Patient Portal</a></li>
-        </ul>
-        <div class="emergency-phone">
-          🚨 <strong>ER: (303) 778-1955</strong> | Dial 911 for Emergencies
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ==========================================================================
-       MAIN NAVIGATION HEADER
+       MAIN HEADER
        ========================================================================== -->
   <header class="main-header">
     <div class="header-container">
@@ -68,31 +39,6 @@
           <span class="brand-subtitle">Porter Hospital</span>
         </div>
       </a>
-
-      <!-- Navigation Menu -->
-      <nav aria-label="Main Navigation">
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="#about" class="nav-link active">Our Hospital</a></li>
-          <li><a href="#services" class="nav-link">Medical Services</a></li>
-          <li><a href="#doctors" class="nav-link">Find Doctors</a></li>
-          <li><a href="#transplant" class="nav-link">Transplant Institute</a></li>
-          <li><a href="#visitor-guide" class="nav-link">Patients & Visitors</a></li>
-          <li><a href="#location" class="nav-link">Location & Map</a></li>
-        </ul>
-      </nav>
-
-      <!-- Action Buttons -->
-      <div class="header-actions-group">
-        <button class="btn btn-outline btn-sm" onclick="toggleChat()" title="Chat with Olivia Assistant">
-          💬 Virtual Assistant
-        </button>
-        <button class="btn btn-primary trigger-appointment-modal">
-          📅 Book Appointment
-        </button>
-        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
-          ☰
-        </button>
-      </div>
     </div>
   </header>
 
