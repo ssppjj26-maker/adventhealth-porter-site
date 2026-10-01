@@ -699,19 +699,6 @@
         }
       };
 
-      // Attach quick action listeners
-      function attachQuickButtonListeners() {
-        const buttons = chatBody.querySelectorAll(".quick-button");
-        buttons.forEach((btn) => {
-          btn.onclick = () => {
-            const text = btn.innerText.trim();
-            const action = btn.getAttribute("data-action");
-            addUserMessage(text);
-            respondToAction(action, text);
-          };
-        });
-      }
-
       // Handle sending text
       function handleSendMessage() {
         const query = chatInput.value.trim();

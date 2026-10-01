@@ -50,28 +50,16 @@ function initChatbot() {
     }
   };
 
-  // Global helper to open chat and trigger a specific topic
+  // Global helper to open chat window
   window.openChatWithTopic = function(topic) {
     if (!chatWindow.classList.contains("active")) {
       chatWindow.classList.add("active");
     }
     setTimeout(() => {
-      handleUserAction(topic);
-    }, 300);
+      chatInput.focus();
+      scrollToBottom();
+    }, 250);
   };
-
-  // Attach quick action listeners
-  function attachQuickButtonListeners() {
-    const buttons = chatBody.querySelectorAll(".quick-button");
-    buttons.forEach((btn) => {
-      btn.onclick = () => {
-        const text = btn.innerText.trim();
-        const action = btn.getAttribute("data-action");
-        addUserMessage(text);
-        respondToAction(action, text);
-      };
-    });
-  }
 
   // Send message on input button or Enter key
   function handleSendMessage() {
