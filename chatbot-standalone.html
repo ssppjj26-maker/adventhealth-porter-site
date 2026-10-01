@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- n8n Chat Widget Stylesheet -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
   <style>
     /* ==========================================================================
        RESET & BASE STYLES
@@ -741,6 +744,16 @@
         return div.innerHTML;
       }
     }
+  </script>
+
+  <!-- n8n Chat Integration -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://spartamax.app.n8n.cloud/webhook/c00eb95f-55c9-4fec-a382-b252dc5962aa/chat'
+    });
   </script>
 
 </body>
