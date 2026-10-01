@@ -42,7 +42,9 @@ function initChatbot() {
   // Toggle chat window open / closed
   window.toggleChat = function() {
     chatWindow.classList.toggle("active");
-    if (chatWindow.classList.contains("active")) {
+    const isOpen = chatWindow.classList.contains("active");
+    document.body.classList.toggle("chat-open", isOpen);
+    if (isOpen) {
       setTimeout(() => {
         chatInput.focus();
         scrollToBottom();
@@ -54,6 +56,7 @@ function initChatbot() {
   window.openChatWithTopic = function(topic) {
     if (!chatWindow.classList.contains("active")) {
       chatWindow.classList.add("active");
+      document.body.classList.add("chat-open");
     }
     setTimeout(() => {
       chatInput.focus();
