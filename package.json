@@ -1,0 +1,18 @@
+{
+  "name": "adventhealthtest-vercel",
+  "version": "1.0.0",
+  "description": "AdventHealth Porter Hospital website duplicate with interactive Olivia Virtual Assistant chatbot, ready for Vercel deployment.",
+  "scripts": {
+    "start": "npx -y serve . -p 3000",
+    "dev": "npx -y serve . -p 3000"
+  },
+  "keywords": [
+    "adventhealth",
+    "hospital",
+    "chatbot",
+    "healthcare",
+    "vercel"
+  ],
+  "author": "AdventHealth",
+  "license": "MIT"
+}

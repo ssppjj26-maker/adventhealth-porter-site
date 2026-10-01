@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AdventHealth Porter in Denver, CO provides world-class whole-person healthcare, 24/7 Level III Trauma Emergency care, renowned kidney and liver transplants, cardiac surgery, and orthopedic excellence." />
+  <meta name="keywords" content="AdventHealth Porter, Denver hospital, emergency room Denver, kidney transplant Denver, heart surgery, orthopedic hospital Colorado" />
+  <meta property="og:title" content="AdventHealth Porter | Denver, Colorado Hospital" />
+  <meta property="og:description" content="World-class healthcare, advanced surgical care, and 24/7 emergency services in Denver, CO." />
+  <meta property="og:type" content="website" />
+  <title>AdventHealth Porter | Denver Hospital & Emergency Care</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- ==========================================================================
+       TOP UTILITY BAR
+       ========================================================================== -->
+  <aside class="top-bar" aria-label="Quick Hospital Links">
+    <div class="top-bar-inner">
+      <div class="top-bar-left">
+        <span class="hospital-badge">
+          <span class="pulse-indicator"></span>
+          AdventHealth Porter · Denver, CO
+        </span>
+        <span style="opacity: 0.6">|</span>
+        <span>📍 2525 S Downing St, Denver, CO 80210</span>
+      </div>
+
+      <div class="top-bar-right">
+        <ul class="top-bar-links">
+          <li><a href="#visitor-guide">For Visitors</a></li>
+          <li><a href="#services">Medical Services</a></li>
+          <li><a href="#location">Directions & Parking</a></li>
+          <li><a href="#" onclick="openChatWithTopic('billing'); return false;">Pay a Bill</a></li>
+          <li><a href="#" onclick="openChatWithTopic('appointment'); return false;">Patient Portal</a></li>
+        </ul>
+        <div class="emergency-phone">
+          🚨 <strong>ER: (303) 778-1955</strong> | Dial 911 for Emergencies
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       MAIN NAVIGATION HEADER
+       ========================================================================== -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" title="AdventHealth Porter">
+        <div class="advent-cross-icon" aria-hidden="true">
+          <div class="cross-leaf cross-leaf-1"></div>
+          <div class="cross-leaf cross-leaf-2"></div>
+          <div class="cross-leaf cross-leaf-3"></div>
+          <div class="cross-leaf cross-leaf-4"></div>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">AdventHealth</span>
+          <span class="brand-subtitle">Porter Hospital</span>
+        </div>
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#about" class="nav-link active">Our Hospital</a></li>
+          <li><a href="#services" class="nav-link">Medical Services</a></li>
+          <li><a href="#doctors" class="nav-link">Find Doctors</a></li>
+          <li><a href="#transplant" class="nav-link">Transplant Institute</a></li>
+          <li><a href="#visitor-guide" class="nav-link">Patients & Visitors</a></li>
+          <li><a href="#location" class="nav-link">Location & Map</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="header-actions-group">
+        <button class="btn btn-outline btn-sm" onclick="toggleChat()" title="Chat with Olivia Assistant">
+          💬 Virtual Assistant
+        </button>
+        <button class="btn btn-primary trigger-appointment-modal">
+          📅 Book Appointment
+        </button>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       LIVE ER ALERT & STATUS BANNER
+       ========================================================================== -->
+  <div class="alert-strip">
+    <div class="alert-content">
+      <div class="alert-text">
+        <span class="badge-tag">24/7 OPEN</span>
+        <strong>Level III Trauma Center & Emergency Care:</strong> Open around the clock at 2525 S Downing St, Denver.
+      </div>
+      <div class="er-status-box">
+        <div class="wait-time-chip">
+          <span>Est. ER Triage Time:</span>
+          <span class="time-bold" id="liveWaitTime">9 Mins</span>
+        </div>
+        <button class="btn btn-sm btn-green" onclick="openChatWithTopic('er')">
+          ER Check-In & Info
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section class="hero-section" id="about">
+    <div class="hero-bg-accent" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="location-tag">
+          🏥 Denver’s Trusted Hospital for Over 90 Years
+        </div>
+        <h1 class="hero-title">
+          World-Class Care, <span>Healed with Heart</span> in South Denver
+        </h1>
+        <p class="hero-desc">
+          At AdventHealth Porter, our world-renowned physicians and compassionate caregivers provide specialized organ transplants, award-winning cardiovascular medicine, pioneering orthopedics, and 24/7 emergency trauma care.
+        </p>
+
+        <div class="hero-ctas">
+          <button class="btn btn-primary trigger-appointment-modal" style="padding: 13px 26px; font-size: 15px;">
+            📅 Request an Appointment
+          </button>
+          <a href="#doctors" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; padding: 13px 22px;">
+            🔍 Find a Specialist
+          </a>
+          <button class="btn btn-sm" onclick="toggleChat()" style="background: rgba(108, 192, 74, 0.2); color: #a3e635; border: 1px solid rgba(108, 192, 74, 0.5); padding: 12px 18px;">
+            🤖 Ask Olivia Virtual Care
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">#1</span>
+            <span class="stat-label">Regional Kidney & Liver Transplant Center</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">Top 50</span>
+            <span class="stat-label">Nationally Ranked Orthopedic Care</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">Grade 'A'</span>
+            <span class="stat-label">Leapfrog Hospital Safety Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media-card">
+        <div class="hospital-hero-frame">
+          <img src="assets/hospital.jpg" alt="AdventHealth Porter Hospital Campus Exterior in Denver, Colorado" />
+        </div>
+        <div class="hero-floating-card">
+          <div class="floating-icon">🏥</div>
+          <div class="floating-info">
+            <h4>AdventHealth Porter Main Campus</h4>
+            <p>2525 S Downing St · 24/7 Emergency & Inpatient Care</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       QUICK CARE ACTION CARDS
+       ========================================================================== -->
+  <section class="quick-action-strip">
+    <div class="container">
+      <div class="action-cards-grid">
+        <div class="action-card" onclick="openChatWithTopic('er')">
+          <div class="card-icon">🚑</div>
+          <span class="card-title">24/7 Emergency & Trauma</span>
+        </div>
+        <div class="action-card" onclick="location.href='#transplant'">
+          <div class="card-icon">🔄</div>
+          <span class="card-title">Organ Transplant Institute</span>
+        </div>
+        <div class="action-card" onclick="location.href='#services'">
+          <div class="card-icon">❤️</div>
+          <span class="card-title">Heart & Vascular Care</span>
+        </div>
+        <div class="action-card" onclick="location.href='#services'">
+          <div class="card-icon">🦴</div>
+          <span class="card-title">Orthopedics & Spine</span>
+        </div>
+        <div class="action-card" onclick="location.href='#services'">
+          <div class="card-icon">🎗️</div>
+          <span class="card-title">Cancer Care Center</span>
+        </div>
+        <div class="action-card" onclick="window.openAppointmentModal()">
+          <div class="card-icon">📅</div>
+          <span class="card-title">Schedule an Appointment</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       DOCTORS DIRECTORY & SEARCH
+       ========================================================================== -->
+  <section class="section" id="doctors">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pretitle">Expert Medical Staff</span>
+        <h2 class="section-title">Find a Physician at AdventHealth Porter</h2>
+        <p class="section-desc">
+          Search over 400 board-certified physicians, fellowship-trained surgeons, and clinical specialists dedicated to whole-person healing.
+        </p>
+      </div>
+
+      <div class="doctor-search-box">
+        <div class="search-input-wrapper">
+          <input
+            type="text"
+            id="doctorSearchInput"
+            class="search-field"
+            placeholder="Search by doctor name, specialty, or condition (e.g., Cardiology, Transplant, Orthopedics)..."
+          />
+          <button class="btn btn-primary" onclick="document.getElementById('doctorSearchInput').focus()">
+            🔍 Search
+          </button>
+        </div>
+
+        <div class="specialty-filter-pills">
+          <button class="filter-pill active" data-filter="all">All Specialties</button>
+          <button class="filter-pill" data-filter="cardiology">Cardiology & Heart</button>
+          <button class="filter-pill" data-filter="transplant">Transplant Surgery</button>
+          <button class="filter-pill" data-filter="orthopedics">Orthopedics & Joint</button>
+          <button class="filter-pill" data-filter="oncology">Cancer Care</button>
+          <button class="filter-pill" data-filter="emergency">Emergency Medicine</button>
+        </div>
+      </div>
+
+      <!-- Doctors Grid -->
+      <div class="doctors-grid">
+        <!-- Doctor 1 -->
+        <article class="doctor-card" data-category="cardiology">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👨‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. David Chen, MD, FACS</h3>
+              <div class="doctor-spec">Cardiothoracic Surgery & TAVR</div>
+              <div class="doctor-rating">★★★★★ <span>4.9 (184 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 AdventHealth Porter Heart & Vascular Institute</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 Harvard Medical School · Cleveland Clinic Fellowship</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ Accepting Medicare & Commercial Insurances</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('care_cardio')">View Profile</button>
+            <button class="btn btn-sm btn-primary trigger-appointment-modal" data-doctor="Dr. David Chen (Cardiothoracic Surgery)">Book Visit</button>
+          </div>
+        </article>
+
+        <!-- Doctor 2 -->
+        <article class="doctor-card" data-category="transplant">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👩‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. Sarah Lewis, MD</h3>
+              <div class="doctor-spec">Transplant Surgery (Kidney & Liver)</div>
+              <div class="doctor-rating">★★★★★ <span>5.0 (212 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 Centura / AdventHealth Transplant Institute</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 Johns Hopkins University School of Medicine</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ Living Donor & Multi-Organ Transplant Specialist</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('care_transplant')">View Profile</button>
+            <button class="btn btn-sm btn-primary trigger-appointment-modal" data-doctor="Dr. Sarah Lewis (Transplant Surgery)">Book Visit</button>
+          </div>
+        </article>
+
+        <!-- Doctor 3 -->
+        <article class="doctor-card" data-category="orthopedics">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👨‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. Marcus Vance, MD</h3>
+              <div class="doctor-spec">Orthopedic Surgery & Joint Replacement</div>
+              <div class="doctor-rating">★★★★★ <span>4.9 (167 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 Porter Center for Joint Replacement</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 Stanford Medicine · Mako Robotic Joint Specialist</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ Minimally Invasive Hip & Knee Arthroplasty</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('care_ortho')">View Profile</button>
+            <button class="btn btn-sm btn-primary trigger-appointment-modal" data-doctor="Dr. Marcus Vance (Orthopedics)">Book Visit</button>
+          </div>
+        </article>
+
+        <!-- Doctor 4 -->
+        <article class="doctor-card" data-category="oncology">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👩‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. Elena Rodriguez, MD</h3>
+              <div class="doctor-spec">Medical Oncology & Hematology</div>
+              <div class="doctor-rating">★★★★★ <span>4.9 (145 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 AdventHealth Cancer Institute at Porter</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 University of Colorado School of Medicine</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ Precision Targeted Therapies & Immunotherapy</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('specialist')">View Profile</button>
+            <button class="btn btn-sm btn-primary trigger-appointment-modal" data-doctor="Dr. Elena Rodriguez (Medical Oncology)">Book Visit</button>
+          </div>
+        </article>
+
+        <!-- Doctor 5 -->
+        <article class="doctor-card" data-category="emergency">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👨‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. Jonathan Miller, MD, FACEP</h3>
+              <div class="doctor-spec">Emergency Medicine & Trauma Care</div>
+              <div class="doctor-rating">★★★★★ <span>4.8 (98 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 Level III Trauma & Emergency Department</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 Baylor College of Medicine · Board-Certified</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ 24/7 Acute Resuscitation & Stroke Team</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('er')">ER Information</button>
+            <button class="btn btn-sm btn-green" onclick="openChatWithTopic('er')">Emergency Guide</button>
+          </div>
+        </article>
+
+        <!-- Doctor 6 -->
+        <article class="doctor-card" data-category="cardiology">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar-circle">👩‍⚕️</div>
+            <div class="doctor-info">
+              <h3>Dr. Rachel Bennett, MD, FACC</h3>
+              <div class="doctor-spec">Interventional Cardiology & Electrophysiology</div>
+              <div class="doctor-rating">★★★★★ <span>4.9 (133 reviews)</span></div>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-detail-row">
+              <span>📍 Cardiac Catheterization Lab at Porter</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🎓 Northwestern Feinberg School of Medicine</span>
+            </div>
+            <div class="doctor-detail-row">
+              <span>🛡️ Arrhythmia, Ablation & Heart Rhythm Disorders</span>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-sm btn-outline" onclick="openChatWithTopic('care_cardio')">View Profile</button>
+            <button class="btn btn-sm btn-primary trigger-appointment-modal" data-doctor="Dr. Rachel Bennett (Interventional Cardiology)">Book Visit</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MEDICAL SERVICES OVERVIEW
+       ========================================================================== -->
+  <section class="section section-alt" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pretitle">Clinical Excellence</span>
+        <h2 class="section-title">Specialized Medical Care in Denver</h2>
+        <p class="section-desc">
+          From preventative screenings to high-complexity surgeries, AdventHealth Porter is equipped with state-of-the-art diagnostic technology.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon-box">🚑</div>
+          <h3>Emergency & Level III Trauma</h3>
+          <p>24/7 comprehensive emergency medicine with rapid triage, stroke intervention, and acute cardiac care.</p>
+          <a href="#" onclick="openChatWithTopic('er'); return false;">Learn about ER Services →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🔄</div>
+          <h3>Kidney & Liver Transplant</h3>
+          <p>Over 35 years of high-survival transplant excellence serving Colorado, Wyoming, and the Mountain West.</p>
+          <a href="#transplant">Transplant Institute Details →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">❤️</div>
+          <h3>Heart & Vascular Institute</h3>
+          <p>Comprehensive cardiac catheterization, valve replacements (TAVR), vascular surgery, and cardiac rehab.</p>
+          <a href="#" onclick="openChatWithTopic('care_cardio'); return false;">Explore Heart Care →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🦴</div>
+          <h3>Orthopedics & Spine</h3>
+          <p>Robotic-assisted joint reconstruction, minimally invasive spine procedures, and dedicated post-op rehab.</p>
+          <a href="#" onclick="openChatWithTopic('care_ortho'); return false;">Orthopedic Services →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🎗️</div>
+          <h3>Cancer Care & Oncology</h3>
+          <p>Holistic cancer therapies with multidisciplinary tumor boards, clinical trials, and dedicated nurse navigators.</p>
+          <a href="#" onclick="window.openAppointmentModal(); return false;">Consult Oncology Team →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🧠</div>
+          <h3>Behavioral Health</h3>
+          <p>Inpatient psychiatric programs, crisis stabilization, and psychiatric care in a respectful healing environment.</p>
+          <a href="#" onclick="openChatWithTopic('appointment'); return false;">Behavioral Health Info →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🔬</div>
+          <h3>Robotic Surgery & Urology</h3>
+          <p>Advanced da Vinci surgical systems enabling smaller incisions, reduced pain, and faster patient recovery times.</p>
+          <a href="#" onclick="window.openAppointmentModal(); return false;">Surgical Specialists →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon-box">🩺</div>
+          <h3>Women's Health & Imaging</h3>
+          <p>3D mammography, comprehensive breast health, bone density scans, and tailored gynecological care.</p>
+          <a href="#" onclick="window.openAppointmentModal(); return false;">Schedule a Screening →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       TRANSPLANT INSTITUTE SPOTLIGHT BANNER
+       ========================================================================== -->
+  <section class="section" id="transplant">
+    <div class="container">
+      <div class="spotlight-banner">
+        <div class="spotlight-content">
+          <span class="location-tag" style="background: rgba(255,255,255,0.15); color: #6ee7b7; border-color: rgba(110, 231, 183, 0.4);">
+            🌟 Rocky Mountain Transplant Destination
+          </span>
+          <h2>The Centura / AdventHealth Transplant Institute</h2>
+          <p>
+            For more than three decades, AdventHealth Porter has been a beacon of hope for patients facing end-stage organ failure. Our dedicated transplant teams offer groundbreaking living donor kidney procedures, liver transplants, and lifelong post-transplant wellness.
+          </p>
+
+          <div class="spotlight-highlights">
+            <div class="highlight-box">
+              <strong>35+ Years</strong>
+              <span>Transplant Surgical Leadership</span>
+            </div>
+            <div class="highlight-box">
+              <strong>98.6% Survival</strong>
+              <span>1-Year Graft Outcome Rate</span>
+            </div>
+            <div class="highlight-box">
+              <strong>Living Donor Program</strong>
+              <span>Paired Kidney Exchange Network</span>
+            </div>
+            <div class="highlight-box">
+              <strong>Dedicated Floor</strong>
+              <span>Specialized Inpatient Transplant Unit</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <button class="btn btn-green" onclick="openChatWithTopic('care_transplant')">
+              🔄 Consult Transplant Team
+            </button>
+            <a href="tel:3037785797" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.4)">
+              📞 Direct Line: (303) 778-5797
+            </a>
+          </div>
+        </div>
+
+        <div class="spotlight-image-box">
+          <img src="assets/doctor.jpg" alt="AdventHealth Porter Compassionate Doctor Consultation" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PATIENTS & VISITORS GUIDE
+       ========================================================================== -->
+  <section class="section section-alt" id="visitor-guide">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pretitle">Hospital Information</span>
+        <h2 class="section-title">Patient & Visitor Guide</h2>
+        <p class="section-desc">
+          Everything you need to know before visiting AdventHealth Porter hospital in Denver.
+        </p>
+      </div>
+
+      <div class="guide-tabs">
+        <button class="guide-tab-btn active" data-tab="all">All Info</button>
+        <button class="guide-tab-btn" data-tab="hours">Visiting Hours</button>
+        <button class="guide-tab-btn" data-tab="parking">Parking & Valet</button>
+        <button class="guide-tab-btn" data-tab="amenities">Amenities & Dining</button>
+      </div>
+
+      <div class="guide-card-deck">
+        <!-- Card 1 -->
+        <div class="guide-card" data-category="hours">
+          <div class="guide-card-icon">⏰</div>
+          <h3>Visiting Hours & Guidelines</h3>
+          <ul>
+            <li><strong>General Inpatient:</strong> 8:00 AM – 8:00 PM daily</li>
+            <li><strong>ICU Units:</strong> Flexible hours based on patient condition</li>
+            <li><strong>Overnight Stays:</strong> 1 adult support visitor per room</li>
+            <li><strong>Quiet Hours:</strong> 8:00 PM – 7:00 AM for patient recovery</li>
+            <li><strong>Guest Check-In:</strong> Photo ID required at main lobby desk</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="guide-card" data-category="parking">
+          <div class="guide-card-icon">🚗</div>
+          <h3>Parking & Complimentary Valet</h3>
+          <ul>
+            <li><strong>Valet Service:</strong> Free at Main Entrance (Mon-Fri 7am-5pm)</li>
+            <li><strong>Visitor Parking Garage:</strong> Entrance on East Harvard Ave</li>
+            <li><strong>ER Parking:</strong> Dedicated emergency lot off Downing St</li>
+            <li><strong>ADA Accessible:</strong> Designated stalls on all garage levels</li>
+            <li><strong>Public Transit:</strong> Near RTD University of Denver Station</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="guide-card" data-category="amenities">
+          <div class="guide-card-icon">☕</div>
+          <h3>Amenities & Whole-Person Healing</h3>
+          <ul>
+            <li><strong>Porter Café:</strong> Wholesome, plant-forward fresh cuisine</li>
+            <li><strong>Chapel & Prayer Room:</strong> Open 24/7 on the 1st Floor</li>
+            <li><strong>Healing Garden:</strong> Serene outdoor courtyard and fountain</li>
+            <li><strong>Free Patient Wi-Fi:</strong> High-speed network across all units</li>
+            <li><strong>Gift Shop & Pharmacy:</strong> On-site prescription pickup</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       LOCATION, CAMPUS MAP & DIRECTIONS
+       ========================================================================== -->
+  <section class="section" id="location">
+    <div class="container">
+      <div class="location-grid">
+        <div class="location-details-box">
+          <div>
+            <span class="section-pretitle">Denver, Colorado</span>
+            <h2 class="loc-title">AdventHealth Porter</h2>
+            <p class="loc-address">
+              📍 2525 South Downing Street, Denver, CO 80210
+            </p>
+
+            <div class="loc-features-list">
+              <div class="loc-feature-item">
+                <div class="icon">📞</div>
+                <div>
+                  <h5>Main Hospital Phone</h5>
+                  <p>(303) 778-1955</p>
+                </div>
+              </div>
+
+              <div class="loc-feature-item">
+                <div class="icon">🚑</div>
+                <div>
+                  <h5>Emergency Department</h5>
+                  <p>Open 24 Hours / 7 Days</p>
+                </div>
+              </div>
+
+              <div class="loc-feature-item">
+                <div class="icon">🅿️</div>
+                <div>
+                  <h5>Complimentary Parking</h5>
+                  <p>Garage & Valet Available</p>
+                </div>
+              </div>
+
+              <div class="loc-feature-item">
+                <div class="icon">🚆</div>
+                <div>
+                  <h5>RTD Light Rail Access</h5>
+                  <p>DU Station (E & H Lines)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a
+              href="https://maps.google.com/?q=2525+South+Downing+Street+Denver+CO+80210"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              🗺️ Open in Google Maps
+            </a>
+            <button class="btn btn-outline" onclick="openChatWithTopic('location')">
+              📍 Ask Olivia for Driving Tips
+            </button>
+          </div>
+        </div>
+
+        <div class="map-interactive-container">
+          <div class="map-placeholder-graphic">
+            <div class="map-pin">
+              <span>🏥</span>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 800; color: #003764; margin-bottom: 6px;">
+              AdventHealth Porter Campus
+            </h3>
+            <p style="font-size: 13px; color: #475569; max-width: 320px;">
+              2525 S Downing St, Denver, CO 80210<br>
+              Cross-streets: South Downing St & East Harvard Ave
+            </p>
+          </div>
+          <div class="map-actions-bar">
+            <span style="font-size: 12px; color: #64748b; font-weight: 600;">
+              🏥 Campus Coordinates: 39.6712° N, 104.9734° W
+            </span>
+            <a
+              href="https://maps.google.com/?q=2525+South+Downing+Street+Denver+CO+80210"
+              target="_blank"
+              class="btn btn-sm btn-outline"
+            >
+              Get Turn-by-Turn GPS
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ACCREDITATIONS & TRUST
+       ========================================================================== -->
+  <div class="accreditations-strip">
+    <div class="container">
+      <div class="accreditations-row">
+        <div class="badge-item">
+          <div class="badge-icon">⭐</div>
+          <div class="badge-text">
+            <h4>The Leapfrog Group</h4>
+            <p>Grade 'A' Hospital Safety Rating</p>
+          </div>
+        </div>
+
+        <div class="badge-item">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-text">
+            <h4>U.S. News & World Report</h4>
+            <p>High Performing in Orthopedics & Transplants</p>
+          </div>
+        </div>
+
+        <div class="badge-item">
+          <div class="badge-icon">🎖️</div>
+          <div class="badge-text">
+            <h4>The Joint Commission</h4>
+            <p>Gold Seal of Approval & Certified Stroke Center</p>
+          </div>
+        </div>
+
+        <div class="badge-item">
+          <div class="badge-icon">🛡️</div>
+          <div class="badge-text">
+            <h4>American College of Surgeons</h4>
+            <p>Verified Level III Trauma Center</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div class="advent-cross-icon" style="width: 28px; height: 28px;">
+              <div class="cross-leaf cross-leaf-1"></div>
+              <div class="cross-leaf cross-leaf-2"></div>
+              <div class="cross-leaf cross-leaf-3"></div>
+              <div class="cross-leaf cross-leaf-4"></div>
+            </div>
+            <h3 style="margin-bottom: 0;">AdventHealth Porter</h3>
+          </div>
+          <p>
+            Extending the Healing Ministry of Christ.<br>
+            AdventHealth Porter is an acute-care regional hospital located in Denver, Colorado, delivering comprehensive inpatient, surgical, and emergency care.
+          </p>
+          <p style="font-size: 12px; color: #64748b;">
+            📍 2525 S Downing St, Denver, CO 80210<br>
+            📞 Phone: (303) 778-1955
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Patient Services</h4>
+          <ul>
+            <li><a href="#" onclick="window.openAppointmentModal(); return false;">Book Appointment</a></li>
+            <li><a href="#" onclick="openChatWithTopic('er'); return false;">Emergency Care</a></li>
+            <li><a href="#doctors">Find a Doctor</a></li>
+            <li><a href="#" onclick="openChatWithTopic('billing'); return false;">Pay My Bill</a></li>
+            <li><a href="#" onclick="openChatWithTopic('billing'); return false;">Accepted Insurances</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Key Specialties</h4>
+          <ul>
+            <li><a href="#transplant">Kidney & Liver Transplant</a></li>
+            <li><a href="#services">Heart & Vascular Institute</a></li>
+            <li><a href="#services">Orthopedics & Spine Center</a></li>
+            <li><a href="#services">Cancer Care Center</a></li>
+            <li><a href="#services">da Vinci Robotic Surgery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>About & Support</h4>
+          <ul>
+            <li><a href="#visitor-guide">Visiting Hours Policy</a></li>
+            <li><a href="#location">Directions & Parking</a></li>
+            <li><a href="#" onclick="toggleChat(); return false;">Virtual Care (Olivia)</a></li>
+            <li><a href="#about">Mission & Values</a></li>
+            <li><a href="tel:3037781955">Contact Administration</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 AdventHealth Porter. All rights reserved.
+        </div>
+        <div>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">HIPAA Notice</a>
+          <a href="#">Non-Discrimination Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       APPOINTMENT BOOKING MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Schedule an Appointment</h3>
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="bookingForm">
+          <div class="form-group">
+            <label class="form-label" for="appointmentDoctorSelect">Select Specialist or Department</label>
+            <select class="form-control" id="appointmentDoctorSelect" required>
+              <option value="">-- Choose Doctor or Specialty --</option>
+              <option value="Dr. David Chen (Cardiothoracic Surgery)">Dr. David Chen (Cardiothoracic Surgery)</option>
+              <option value="Dr. Sarah Lewis (Transplant Surgery)">Dr. Sarah Lewis (Transplant Surgery)</option>
+              <option value="Dr. Marcus Vance (Orthopedics)">Dr. Marcus Vance (Orthopedics & Spine)</option>
+              <option value="Dr. Elena Rodriguez (Medical Oncology)">Dr. Elena Rodriguez (Medical Oncology)</option>
+              <option value="Dr. Rachel Bennett (Interventional Cardiology)">Dr. Rachel Bennett (Interventional Cardiology)</option>
+              <option value="General Primary Care">General Primary Care / Internal Medicine</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="patientFirstName">First Name</label>
+              <input type="text" id="patientFirstName" class="form-control" placeholder="e.g. John" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="patientLastName">Last Name</label>
+              <input type="text" id="patientLastName" class="form-control" placeholder="e.g. Doe" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="patientPhone">Phone Number</label>
+              <input type="tel" id="patientPhone" class="form-control" placeholder="(303) 000-0000" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="patientEmail">Email Address</label>
+              <input type="email" id="patientEmail" class="form-control" placeholder="john@example.com" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="preferredDate">Preferred Date</label>
+              <input type="date" id="preferredDate" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="preferredTime">Preferred Time</label>
+              <select class="form-control" id="preferredTime" required>
+                <option value="Morning (8:00 AM - 12:00 PM)">Morning (8:00 AM - 12:00 PM)</option>
+                <option value="Afternoon (12:00 PM - 4:00 PM)">Afternoon (12:00 PM - 4:00 PM)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="patientNotes">Reason for Visit (Optional)</label>
+            <textarea id="patientNotes" class="form-control" rows="2" placeholder="Briefly describe your symptoms or consultation request..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+            Confirm Appointment Request
+          </button>
+        </form>
+
+        <div class="booking-confirm-banner" id="bookingConfirmBanner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CHATBOT: OLIVIA VIRTUAL ASSISTANT
+       (Provided by User, fully dynamic & interactive)
+       ========================================================================== -->
+
+  <!-- CHAT WINDOW -->
+  <div class="chat-window" id="chatWindow" role="complementary" aria-label="Virtual Assistant Chat">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+      <div class="header-left">
+        <div class="assistant-avatar">
+          🤖
+          <span class="avatar-status"></span>
+        </div>
+        <div>
+          <div class="assistant-name">
+            Olivia · Virtual Assistant
+          </div>
+          <div class="assistant-subtitle">
+            Virtual Care & Scheduling
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="header-btn" id="restartChatBtn" title="Restart conversation">
+          ↻
+        </button>
+        <button class="header-btn" title="Close" onclick="toggleChat()">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- CHAT BODY -->
+    <div class="chat-body" id="chatBody">
+
+      <!-- BOT MESSAGE -->
+      <div class="message-row bot">
+        <div class="message-meta">
+          <span>Olivia</span>
+          <span>·</span>
+          <span>Online</span>
+        </div>
+
+        <div class="message bot-message">
+          Hello! 👋 I'm your virtual assistant.
+          <br><br>
+          How can I help you today?
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-button" data-action="appointment">
+            📅 Book an Appointment
+          </button>
+          <button class="quick-button" data-action="specialist">
+            🩺 Find a Specialist
+          </button>
+          <button class="quick-button" data-action="billing">
+            💳 Insurance & Billing
+          </button>
+          <button class="quick-button" data-action="location">
+            📍 Location & Parking
+          </button>
+        </div>
+      </div>
+
+      <!-- SAMPLE USER MESSAGE -->
+      <div class="message-row user">
+        <div class="message-meta">
+          <span>You</span>
+          <span>·</span>
+          <span>11:30 AM</span>
+        </div>
+        <div class="message user-message">
+          I would like to book an appointment.
+        </div>
+      </div>
+
+      <!-- SAMPLE BOT MESSAGE -->
+      <div class="message-row bot">
+        <div class="message-meta">
+          <span>Olivia</span>
+          <span>·</span>
+          <span>11:30 AM</span>
+        </div>
+        <div class="message bot-message">
+          Absolutely. I can help you with that.
+          <br><br>
+          What type of care are you looking for?
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-button" data-action="care_primary">
+            🩺 Primary Care
+          </button>
+          <button class="quick-button" data-action="care_ortho">
+            🦴 Orthopedics
+          </button>
+          <button class="quick-button" data-action="care_cardio">
+            ❤️ Cardiology
+          </button>
+          <button class="quick-button" data-action="care_neuro">
+            🧠 Neurosciences
+          </button>
+        </div>
+      </div>
+
+      <!-- TYPING INDICATOR -->
+      <div class="typing" id="typingIndicator">
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>Olivia is typing...</span>
+      </div>
+
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="chat-input-area">
+      <input
+        class="chat-input"
+        id="chatInput"
+        type="text"
+        placeholder="Ask Olivia or type your request..."
+      />
+      <button class="send-button" id="sendButton" aria-label="Send message">
+        ➤
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="chat-footer">
+      🔒 Your information is handled securely&nbsp; · &nbsp;
+      <strong>Emergency? Call 911</strong>
+    </div>
+
+  </div>
+
+  <!-- FLOATING CHAT LAUNCHER BUTTON -->
+  <div class="chat-launcher">
+    <div class="launcher-label" onclick="toggleChat()">
+      Need help? Chat with Olivia
+    </div>
+    <button
+      class="launcher-button"
+      onclick="toggleChat()"
+      aria-label="Open chat"
+    >
+      <span class="launcher-icon">
+        💬
+      </span>
+      <span class="online-dot"></span>
+    </button>
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="app.js"></script>
+
+</body>
+</html>
