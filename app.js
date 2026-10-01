@@ -64,13 +64,85 @@ function initChatbot() {
     }, 250);
   };
 
-  // Send message on input button or Enter key
-  function handleSendMessage() {
+  const N8N_WEBHOOK_URL = 'https://spartamax.app.n8n.cloud/webhook/c00eb95f-55c9-4fec-a382-b252dc5962aa/chat';
+  let n8nSessionId = localStorage.getItem('olivia_n8n_session');
+  if (!n8nSessionId) {
+    n8nSessionId = 'sess_' + Math.random().toString(36).substring(2, 12);
+    localStorage.setItem('olivia_n8n_session', n8nSessionId);
+  }
+
+  // Send message to n8n webhook
+  async function handleSendMessage() {
     const query = chatInput.value.trim();
     if (!query) return;
 
     addUserMessage(query);
     chatInput.value = "";
+
+    // Show typing indicator
+    const typing = document.getElementById("typingIndicator");
+    if (typing) {
+      typing.classList.add("active");
+      scrollToBottom();
+    }
+
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json, text/plain, */*"
+        },
+        body: JSON.stringify({
+          action: "sendMessage",
+          chatInput: query,
+          sessionId: n8nSessionId
+        })
+      });
+
+      if (typing) typing.classList.remove("active");
+
+      if (!response.ok) {
+        let errorText = "";
+        try {
+          const errJson = await response.json();
+          errorText = errJson.message || JSON.stringify(errJson);
+        } catch (e) {
+          errorText = await response.text();
+        }
+
+        if (errorText.includes("Error in workflow")) {
+          window.addBotMessage("⚠️ <strong>n8n Workflow Error:</strong> Your message reached the webhook, but the workflow encountered an error on your n8n cloud server (<code>Error in workflow</code>).<br><br>👉 <strong>How to fix:</strong> Open <a href='https://spartamax.app.n8n.cloud' target='_blank' style='color:#0076c0;font-weight:700;text-decoration:underline;'>spartamax.app.n8n.cloud</a>, go to the <strong>Executions</strong> tab, and click the failed execution to see which node failed (usually an OpenAI/AI Model API key or quota issue).");
+        } else {
+          window.addBotMessage(`⚠️ Webhook error (${response.status}): ${escapeHTML(errorText || response.statusText)}`);
+        }
+        return;
+      }
+
+      let botReply = "";
+      const contentType = response.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const data = await response.json();
+        if (typeof data === "string") {
+          botReply = data;
+        } else if (Array.isArray(data) && data.length > 0) {
+          botReply = data[0].output || data[0].text || data[0].message || data[0].response || JSON.stringify(data[0]);
+        } else if (typeof data === "object" && data !== null) {
+          botReply = data.output || data.text || data.message || data.response || JSON.stringify(data);
+        }
+      } else {
+        botReply = await response.text();
+      }
+
+      if (botReply) {
+        window.addBotMessage(escapeHTML(botReply).replace(/\n/g, "<br>"));
+      } else {
+        window.addBotMessage("Received an empty response from server.");
+      }
+    } catch (err) {
+      if (typing) typing.classList.remove("active");
+      window.addBotMessage("⚠️ <strong>Connection Error:</strong> Could not reach n8n webhook. Please verify internet connection or CORS settings.");
+    }
   }
 
   sendButton.addEventListener("click", handleSendMessage);
@@ -83,6 +155,8 @@ function initChatbot() {
 
   if (restartButton) {
     restartButton.addEventListener("click", () => {
+      n8nSessionId = 'sess_' + Math.random().toString(36).substring(2, 12);
+      localStorage.setItem('olivia_n8n_session', n8nSessionId);
       window.resetChat();
     });
   }
