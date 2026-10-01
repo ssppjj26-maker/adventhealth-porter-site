@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olivia · Virtual Assistant (Standalone)</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       RESET & BASE STYLES
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      color: #1e293b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .demo-container {
+      max-width: 650px;
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 55, 100, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .demo-badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0076c0;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #003764;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    p {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #003764, #005a96, #0076c0);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 55, 100, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 55, 100, 0.35);
+    }
+
+    /* ==========================================================================
+       FLOATING CHAT LAUNCHER BUTTON
+       ========================================================================== */
+    .chat-launcher {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .launcher-label {
+      background: #003764;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0, 55, 100, 0.2);
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .launcher-label:hover {
+      transform: scale(1.03);
+    }
+
+    .launcher-button {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      border: 2px solid rgba(108, 192, 74, 0.5);
+      background: linear-gradient(135deg, #003764, #005a96, #0076c0);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(0, 55, 100, 0.3);
+      transition: 0.25s ease;
+      position: relative;
+    }
+
+    .launcher-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 35px rgba(0, 55, 100, 0.4);
+    }
+
+    .launcher-icon {
+      font-size: 28px;
+    }
+
+    .online-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 13px;
+      height: 13px;
+      background: #6cc04a;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    /* ==========================================================================
+       CHAT WINDOW CONTAINER
+       ========================================================================== */
+    .chat-window {
+      position: fixed;
+      right: 24px;
+      bottom: 100px;
+      width: 410px;
+      max-width: calc(100vw - 30px);
+      height: 620px;
+      max-height: calc(100vh - 120px);
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      z-index: 9998;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18), 0 5px 20px rgba(0, 55, 100, 0.08);
+      border: 1px solid #e2e8f0;
+      display: none;
+      flex-direction: column;
+    }
+
+    .chat-window.active {
+      display: flex;
+      animation: chatOpen 0.25s ease forwards;
+    }
+
+    @keyframes chatOpen {
+      from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ==========================================================================
+       CHAT HEADER
+       ========================================================================== */
+    .chat-header {
+      background: linear-gradient(135deg, #003764, #005a96, #0076c0);
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-align: left;
+    }
+
+    .assistant-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      position: relative;
+    }
+
+    .avatar-status {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #6cc04a;
+      border-radius: 50%;
+      border: 2px solid white;
+      right: -2px;
+      bottom: -2px;
+    }
+
+    .assistant-name {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .assistant-subtitle {
+      margin-top: 4px;
+      color: #d8efff;
+      font-size: 11px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .header-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: #d8efff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+    }
+
+    /* ==========================================================================
+       CHAT BODY
+       ========================================================================== */
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 15px;
+      background: #f8fafc;
+      scroll-behavior: smooth;
+    }
+
+    .chat-body::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .chat-body::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 20px;
+    }
+
+    /* ==========================================================================
+       MESSAGES
+       ========================================================================== */
+    .message-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+      animation: messageAppear 0.2s ease forwards;
+    }
+
+    @keyframes messageAppear {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-row.bot {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .message-row.user {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .message-meta {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 0 6px;
+      margin-bottom: 5px;
+      color: #94a3b8;
+      font-size: 10px;
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: left;
+      word-break: break-word;
+    }
+
+    .bot-message {
+      background: white;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-top-left-radius: 4px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .bot-message a {
+      color: #0076c0;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .user-message {
+      background: #0076c0;
+      color: white;
+      border-top-right-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       QUICK ACTION BUTTONS
+       ========================================================================== */
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+      max-width: 90%;
+    }
+
+    .quick-button {
+      background: white;
+      color: #003764;
+      border: 1px solid #dbe3eb;
+      padding: 8px 11px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-family: inherit;
+    }
+
+    .quick-button:hover {
+      border-color: #0076c0;
+      background: #eff8ff;
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       TYPING INDICATOR
+       ========================================================================== */
+    .typing {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 5px;
+    }
+
+    .typing.active {
+      display: flex;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .typing-dots span {
+      width: 5px;
+      height: 5px;
+      background: #0076c0;
+      border-radius: 50%;
+      animation: typing 1.2s infinite;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+      30% {
+        transform: translateY(-4px);
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================================================
+       INPUT AREA
+       ========================================================================== */
+    .chat-input-area {
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 11px 13px;
+      outline: none;
+      font-size: 12px;
+      color: #1e293b;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+
+    .chat-input:focus {
+      border-color: #0076c0;
+      box-shadow: 0 0 0 3px rgba(0, 118, 192, 0.08);
+    }
+
+    .chat-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .send-button {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      border: none;
+      border-radius: 12px;
+      background: #0076c0;
+      color: white;
+      cursor: pointer;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .send-button:hover {
+      background: #005a96;
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .chat-footer {
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-top: 1px solid #eef2f7;
+      display: flex;
+      justify-content: center;
+      color: #64748b;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .chat-footer strong {
+      color: #334155;
+    }
+
+    /* ==========================================================================
+       MOBILE RESPONSIVENESS
+       ========================================================================== */
+    @media (max-width: 600px) {
+      .chat-launcher {
+        right: 16px;
+        bottom: 16px;
+      }
+
+      .launcher-label {
+        display: none;
+      }
+
+      .launcher-button {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+      }
+
+      .chat-window {
+        right: 10px;
+        bottom: 84px;
+        width: calc(100vw - 20px);
+        height: calc(100vh - 105px);
+        max-height: none;
+        border-radius: 18px;
+      }
+
+      .chat-body {
+        padding: 14px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PAGE DEMO CONTENT -->
+  <div class="demo-container">
+    <div class="demo-badge">All-in-One Standalone File</div>
+    <h1>Olivia · Virtual Assistant</h1>
+    <p>
+      This is a single self-contained HTML file featuring the complete <strong>Olivia Virtual Assistant</strong> chatbot, including styles, floating launcher, sample dialogue, quick action buttons, and intelligent response engine.
+    </p>
+    <button class="demo-btn" onclick="toggleChat()">
+      💬 Click Here to Open Chatbot
+    </button>
+  </div>
+
+
+  <!-- ==========================================================================
+       CHAT WINDOW
+       ========================================================================== -->
+  <div class="chat-window" id="chatWindow" role="complementary" aria-label="Virtual Assistant Chat">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+      <div class="header-left">
+        <div class="assistant-avatar">
+          🤖
+          <span class="avatar-status"></span>
+        </div>
+        <div>
+          <div class="assistant-name">Olivia · Virtual Assistant</div>
+          <div class="assistant-subtitle">Virtual Care & Scheduling</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="header-btn" id="restartChatBtn" title="Restart conversation">↻</button>
+        <button class="header-btn" title="Close" onclick="toggleChat()">✕</button>
+      </div>
+    </div>
+
+    <!-- CHAT BODY -->
+    <div class="chat-body" id="chatBody">
+
+      <!-- BOT MESSAGE -->
+      <div class="message-row bot">
+        <div class="message-meta">
+          <span>Olivia</span>
+          <span>·</span>
+          <span>Online</span>
+        </div>
+        <div class="message bot-message">
+          Hello! 👋 I'm your virtual assistant.
+          <br><br>
+          How can I help you today?
+        </div>
+        <div class="quick-actions">
+          <button class="quick-button" data-action="appointment">📅 Book an Appointment</button>
+          <button class="quick-button" data-action="specialist">🩺 Find a Specialist</button>
+          <button class="quick-button" data-action="billing">💳 Insurance & Billing</button>
+          <button class="quick-button" data-action="location">📍 Location & Parking</button>
+        </div>
+      </div>
+
+      <!-- SAMPLE USER MESSAGE -->
+      <div class="message-row user">
+        <div class="message-meta">
+          <span>You</span>
+          <span>·</span>
+          <span>11:30 AM</span>
+        </div>
+        <div class="message user-message">
+          I would like to book an appointment.
+        </div>
+      </div>
+
+      <!-- SAMPLE BOT MESSAGE -->
+      <div class="message-row bot">
+        <div class="message-meta">
+          <span>Olivia</span>
+          <span>·</span>
+          <span>11:30 AM</span>
+        </div>
+        <div class="message bot-message">
+          Absolutely. I can help you with that.
+          <br><br>
+          What type of care are you looking for?
+        </div>
+        <div class="quick-actions">
+          <button class="quick-button" data-action="care_primary">🩺 Primary Care</button>
+          <button class="quick-button" data-action="care_ortho">🦴 Orthopedics</button>
+          <button class="quick-button" data-action="care_cardio">❤️ Cardiology</button>
+          <button class="quick-button" data-action="care_neuro">🧠 Neurosciences</button>
+        </div>
+      </div>
+
+      <!-- TYPING INDICATOR -->
+      <div class="typing" id="typingIndicator">
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>Olivia is typing...</span>
+      </div>
+
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="chat-input-area">
+      <input
+        class="chat-input"
+        id="chatInput"
+        type="text"
+        placeholder="Ask Olivia or type your request..."
+      />
+      <button class="send-button" id="sendButton" aria-label="Send message">
+        ➤
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="chat-footer">
+      🔒 Your information is handled securely&nbsp; · &nbsp;
+      <strong>Emergency? Call 911</strong>
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================================================
+       FLOATING CHAT LAUNCHER BUTTON
+       ========================================================================== -->
+  <div class="chat-launcher">
+    <div class="launcher-label" onclick="toggleChat()">
+      Need help? Chat with Olivia
+    </div>
+    <button
+      class="launcher-button"
+      onclick="toggleChat()"
+      aria-label="Open chat"
+    >
+      <span class="launcher-icon">💬</span>
+      <span class="online-dot"></span>
+    </button>
+  </div>
+
+
+  <!-- ==========================================================================
+       INTELLIGENT CHATBOT JAVASCRIPT ENGINE
+       ========================================================================== -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initChatbot();
+    });
+
+    function initChatbot() {
+      const chatWindow = document.getElementById("chatWindow");
+      const chatBody = document.getElementById("chatBody");
+      const chatInput = document.getElementById("chatInput");
+      const sendButton = document.getElementById("sendButton");
+      const restartButton = document.getElementById("restartChatBtn");
+
+      // Initial template snapshot
+      const initialBotHTML = `
+        <!-- BOT MESSAGE -->
+        <div class="message-row bot">
+          <div class="message-meta">
+            <span>Olivia</span>
+            <span>·</span>
+            <span>Online</span>
+          </div>
+          <div class="message bot-message">
+            Hello! 👋 I'm your virtual assistant.
+            <br><br>
+            How can I help you today?
+          </div>
+          <div class="quick-actions">
+            <button class="quick-button" data-action="appointment">📅 Book an Appointment</button>
+            <button class="quick-button" data-action="specialist">🩺 Find a Specialist</button>
+            <button class="quick-button" data-action="billing">💳 Insurance & Billing</button>
+            <button class="quick-button" data-action="location">📍 Location & Parking</button>
+          </div>
+        </div>
+
+        <!-- SAMPLE USER MESSAGE -->
+        <div class="message-row user">
+          <div class="message-meta">
+            <span>You</span>
+            <span>·</span>
+            <span>11:30 AM</span>
+          </div>
+          <div class="message user-message">
+            I would like to book an appointment.
+          </div>
+        </div>
+
+        <!-- SAMPLE BOT MESSAGE -->
+        <div class="message-row bot">
+          <div class="message-meta">
+            <span>Olivia</span>
+            <span>·</span>
+            <span>11:30 AM</span>
+          </div>
+          <div class="message bot-message">
+            Absolutely. I can help you with that.
+            <br><br>
+            What type of care are you looking for?
+          </div>
+          <div class="quick-actions">
+            <button class="quick-button" data-action="care_primary">🩺 Primary Care</button>
+            <button class="quick-button" data-action="care_ortho">🦴 Orthopedics</button>
+            <button class="quick-button" data-action="care_cardio">❤️ Cardiology</button>
+            <button class="quick-button" data-action="care_neuro">🧠 Neurosciences</button>
+          </div>
+        </div>
+      `;
+
+      // Reset chat to initial state
+      window.resetChat = function() {
+        chatBody.innerHTML = initialBotHTML + `
+          <div class="typing" id="typingIndicator">
+            <div class="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span>Olivia is typing...</span>
+          </div>
+        `;
+        attachQuickButtonListeners();
+      };
+
+      // Toggle chat window open / closed
+      window.toggleChat = function() {
+        chatWindow.classList.toggle("active");
+        if (chatWindow.classList.contains("active")) {
+          setTimeout(() => {
+            chatInput.focus();
+            scrollToBottom();
+          }, 250);
+        }
+      };
+
+      // Attach quick action listeners
+      function attachQuickButtonListeners() {
+        const buttons = chatBody.querySelectorAll(".quick-button");
+        buttons.forEach((btn) => {
+          btn.onclick = () => {
+            const text = btn.innerText.trim();
+            const action = btn.getAttribute("data-action");
+            addUserMessage(text);
+            respondToAction(action, text);
+          };
+        });
+      }
+
+      // Handle sending text
+      function handleSendMessage() {
+        const query = chatInput.value.trim();
+        if (!query) return;
+
+        addUserMessage(query);
+        chatInput.value = "";
+        processUserText(query);
+      }
+
+      sendButton.addEventListener("click", handleSendMessage);
+      chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleSendMessage();
+        }
+      });
+
+      if (restartButton) {
+        restartButton.addEventListener("click", () => {
+          window.resetChat();
+        });
+      }
+
+      // Append user message
+      function addUserMessage(text) {
+        const timeStr = getCurrentTime();
+        const userRow = document.createElement("div");
+        userRow.className = "message-row user";
+        userRow.innerHTML = `
+          <div class="message-meta">
+            <span>You</span>
+            <span>·</span>
+            <span>${timeStr}</span>
+          </div>
+          <div class="message user-message">${escapeHTML(text)}</div>
+        `;
+
+        const typing = document.getElementById("typingIndicator");
+        chatBody.insertBefore(userRow, typing);
+        scrollToBottom();
+      }
+
+      // Toggle typing indicator
+      function showTyping(show) {
+        const typing = document.getElementById("typingIndicator");
+        if (typing) {
+          if (show) {
+            typing.classList.add("active");
+            scrollToBottom();
+          } else {
+            typing.classList.remove("active");
+          }
+        }
+      }
+
+      // Append bot response with typing delay
+      function addBotMessage(htmlContent, quickActions = []) {
+        showTyping(true);
+        const delay = Math.min(1000, Math.max(500, htmlContent.length * 4));
+
+        setTimeout(() => {
+          showTyping(false);
+          const timeStr = getCurrentTime();
+          const botRow = document.createElement("div");
+          botRow.className = "message-row bot";
+
+          let actionsHTML = "";
+          if (quickActions.length > 0) {
+            actionsHTML = `<div class="quick-actions">` +
+              quickActions.map(a => `<button class="quick-button" data-action="${a.action}">${a.label}</button>`).join("") +
+              `</div>`;
+          }
+
+          botRow.innerHTML = `
+            <div class="message-meta">
+              <span>Olivia</span>
+              <span>·</span>
+              <span>${timeStr}</span>
+            </div>
+            <div class="message bot-message">${htmlContent}</div>
+            ${actionsHTML}
+          `;
+
+          const typing = document.getElementById("typingIndicator");
+          chatBody.insertBefore(botRow, typing);
+          attachQuickButtonListeners();
+          scrollToBottom();
+        }, delay);
+      }
+
+      // Dynamic Action Responses
+      function respondToAction(action, text) {
+        switch (action) {
+          case "appointment":
+            addBotMessage(
+              `I can help schedule your appointment at AdventHealth Porter! What type of specialty or care do you need?`,
+              [
+                { action: "care_primary", label: "🩺 Primary Care" },
+                { action: "care_cardio", label: "❤️ Cardiology" },
+                { action: "care_ortho", label: "🦴 Orthopedics & Spine" },
+                { action: "care_neuro", label: "🧠 Neurosciences" },
+                { action: "care_transplant", label: "🔄 Transplant Services" }
+              ]
+            );
+            break;
+
+          case "care_primary":
+            addBotMessage(
+              `Our <strong>Primary Care</strong> physicians at AdventHealth Porter emphasize whole-person wellness, prevention, and routine family medicine.<br><br>• Same-day & next-day visits available<br>• In-person and Virtual Care visits<br><br>Call scheduling at <a href="tel:3037781955"><strong>(303) 778-1955</strong></a> or visit our reception desk.`,
+              [
+                { action: "location", label: "📍 Clinic Location" },
+                { action: "specialist", label: "🩺 Find a Doctor" }
+              ]
+            );
+            break;
+
+          case "care_ortho":
+            addBotMessage(
+              `AdventHealth Porter is renowned for <strong>Orthopedics & Spine</strong> care, featuring Mako™ robotic joint replacement and sports rehabilitation under orthopedic surgeons like <strong>Dr. Marcus Vance, MD</strong>.`,
+              [
+                { action: "appointment", label: "📅 Schedule Consult" },
+                { action: "location", label: "📍 Where to Park" }
+              ]
+            );
+            break;
+
+          case "care_cardio":
+            addBotMessage(
+              `The <strong>Porter Heart & Vascular Institute</strong> provides world-class cardiology, cardiac catheterization, minimally invasive valve repair (TAVR), and thoracic surgery led by <strong>Dr. David Chen, MD, FACS</strong>.<br><br>• Accredited Chest Pain Center<br>• Dedicated Cardiovascular ICU`,
+              [
+                { action: "appointment", label: "📅 Book Cardiology Consult" },
+                { action: "er", label: "🚑 Emergency Cardiac Care" }
+              ]
+            );
+            break;
+
+          case "care_neuro":
+            addBotMessage(
+              `Our <strong>Neurosciences & Spine Institute</strong> provides advanced diagnosis and treatment for spine disorders, stroke, neuropathy, and complex cranial conditions in Denver.`,
+              [
+                { action: "appointment", label: "📅 Schedule Neuro Consult" },
+                { action: "location", label: "📍 Clinic Location" }
+              ]
+            );
+            break;
+
+          case "specialist":
+          case "care_transplant":
+            addBotMessage(
+              `AdventHealth Porter features board-certified physicians in Denver:<br><br>
+              • <strong>Dr. David Chen, MD, FACS</strong> (Cardiothoracic Surgery)<br>
+              • <strong>Dr. Sarah Lewis, MD</strong> (Kidney & Liver Transplant)<br>
+              • <strong>Dr. Marcus Vance, MD</strong> (Orthopedic Surgery & Joint Replacement)<br>
+              • <strong>Dr. Elena Rodriguez, MD</strong> (Medical Oncology)<br><br>
+              Would you like to connect with patient scheduling at <strong>(303) 778-1955</strong>?`,
+              [
+                { action: "appointment", label: "📅 Request Appointment" },
+                { action: "location", label: "📍 Campus Map" }
+              ]
+            );
+            break;
+
+          case "billing":
+            addBotMessage(
+              `AdventHealth Porter accepts Medicare, Colorado Medicaid, and most major commercial insurances (Aetna, Anthem BCBS, Cigna, UnitedHealthcare, Humana).<br><br>
+              • <strong>Pay Online:</strong> Access your MyAdventHealth patient portal.<br>
+              • <strong>Financial Assistance:</strong> Interest-free payment plans are available.<br>
+              • <strong>Billing Inquiries:</strong> (303) 778-5700`,
+              [
+                { action: "appointment", label: "📅 Book Care" },
+                { action: "location", label: "📍 Campus Map" }
+              ]
+            );
+            break;
+
+          case "location":
+            addBotMessage(
+              `<strong>AdventHealth Porter</strong><br>
+              📍 <strong>Address:</strong> 2525 South Downing Street, Denver, CO 80210<br>
+              📞 <strong>Main Hospital:</strong> (303) 778-1955<br><br>
+              • <strong>Complimentary Valet:</strong> Available at the Main Entrance Mon–Fri, 7:00 AM – 5:00 PM.<br>
+              • <strong>Visitor Parking Garage:</strong> Free parking adjacent on East Harvard Ave.<br>
+              • <strong>Transit:</strong> Near RTD DU Light Rail Station (E & H Lines).`,
+              [
+                { action: "er", label: "🚑 Where is the ER entrance?" },
+                { action: "visiting", label: "⏰ Visiting Hours" }
+              ]
+            );
+            break;
+
+          case "er":
+            addBotMessage(
+              `🚑 <strong>24/7 Emergency Room & Level III Trauma Center</strong><br><br>
+              Our emergency department is open 24 hours a day with dedicated trauma, chest pain, and stroke teams.<br>
+              • <strong>Current Estimated Triage Time:</strong> ~8 - 11 minutes.<br>
+              • <strong>ER Entrance:</strong> Located on the east wing off S. Downing St & E. Harvard Ave.<br><br>
+              ⚠️ <em>If you are experiencing a life-threatening emergency, please dial 911 immediately.</em>`,
+              [
+                { action: "location", label: "📍 Get Directions" },
+                { action: "visiting", label: "⏰ Visitor Policy" }
+              ]
+            );
+            break;
+
+          case "visiting":
+            addBotMessage(
+              `<strong>Patient & Visitor Hours:</strong><br>
+              ⏰ <strong>General Inpatient Units:</strong> 8:00 AM – 8:00 PM daily.<br>
+              • <strong>ICU:</strong> Specialized hours, 2 visitors at a time.<br>
+              • <strong>Overnight Visitors:</strong> 1 designated support person allowed per room.<br>
+              • <strong>Masks:</strong> Complimentary masks available at all entrances.`,
+              [
+                { action: "location", label: "📍 Parking Information" },
+                { action: "appointment", label: "📅 Book an Appointment" }
+              ]
+            );
+            break;
+
+          default:
+            addBotMessage(
+              `I'm here to help! Would you like to schedule an appointment, check emergency services, or locate a doctor?`,
+              [
+                { action: "appointment", label: "📅 Book an Appointment" },
+                { action: "specialist", label: "🩺 Find a Specialist" },
+                { action: "location", label: "📍 Location & Parking" }
+              ]
+            );
+        }
+      }
+
+      // Natural Language Text Keyword Processing
+      function processUserText(rawText) {
+        const text = rawText.toLowerCase();
+
+        if (text.includes("appoint") || text.includes("book") || text.includes("schedule") || text.includes("see a doctor")) {
+          respondToAction("appointment", rawText);
+        } else if (text.includes("er") || text.includes("emergency") || text.includes("trauma") || text.includes("urgent") || text.includes("wait")) {
+          respondToAction("er", rawText);
+        } else if (text.includes("doctor") || text.includes("specialist") || text.includes("physician") || text.includes("surgeon")) {
+          respondToAction("specialist", rawText);
+        } else if (text.includes("where") || text.includes("address") || text.includes("location") || text.includes("park") || text.includes("direction") || text.includes("map")) {
+          respondToAction("location", rawText);
+        } else if (text.includes("bill") || text.includes("insurance") || text.includes("cost") || text.includes("pay") || text.includes("medicare") || text.includes("medicaid")) {
+          respondToAction("billing", rawText);
+        } else if (text.includes("hour") || text.includes("visit") || text.includes("visitor") || text.includes("guest")) {
+          respondToAction("visiting", rawText);
+        } else if (text.includes("heart") || text.includes("cardio") || text.includes("vascular")) {
+          respondToAction("care_cardio", rawText);
+        } else if (text.includes("ortho") || text.includes("bone") || text.includes("joint") || text.includes("knee") || text.includes("hip")) {
+          respondToAction("care_ortho", rawText);
+        } else if (text.includes("neuro") || text.includes("brain") || text.includes("spine")) {
+          respondToAction("care_neuro", rawText);
+        } else if (text.includes("primary") || text.includes("general") || text.includes("checkup")) {
+          respondToAction("care_primary", rawText);
+        } else if (text.includes("hello") || text.includes("hi") || text.includes("hey")) {
+          addBotMessage(
+            `Hello there! 👋 Welcome to AdventHealth Porter. How can I assist you with your health care needs today?`,
+            [
+              { action: "appointment", label: "📅 Book an Appointment" },
+              { action: "specialist", label: "🩺 Find a Specialist" },
+              { action: "er", label: "🚑 ER Wait Times" }
+            ]
+          );
+        } else {
+          addBotMessage(
+            `Thank you for reaching out. How can I best assist you today?`,
+            [
+              { action: "appointment", label: "📅 Book an Appointment" },
+              { action: "specialist", label: "🩺 Find a Doctor" },
+              { action: "location", label: "📍 Location & Parking" },
+              { action: "billing", label: "💳 Insurance & Billing" }
+            ]
+          );
+        }
+      }
+
+      function scrollToBottom() {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+
+      function escapeHTML(str) {
+        const div = document.createElement("div");
+        div.innerText = str;
+        return div.innerHTML;
+      }
+
+      // Initial listener attachment
+      attachQuickButtonListeners();
+    }
+  </script>
+
+</body>
+</html>
