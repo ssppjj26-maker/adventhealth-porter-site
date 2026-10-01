@@ -80,7 +80,6 @@ function initChatbot() {
 
     addUserMessage(query);
     chatInput.value = "";
-    processUserText(query);
   }
 
   sendButton.addEventListener("click", handleSendMessage);
@@ -110,264 +109,22 @@ function initChatbot() {
     scrollToBottom();
   }
 
-  // Show Typing Indicator
-  function showTyping(show) {
+  // Optional helper to append bot message (only when called externally, not automatic)
+  window.addBotMessage = function(htmlContent) {
+    const botRow = document.createElement("div");
+    botRow.className = "message-row bot";
+    botRow.innerHTML = `
+      <div class="message bot-message">${htmlContent}</div>
+    `;
+
     const typing = document.getElementById("typingIndicator");
     if (typing) {
-      if (show) {
-        typing.classList.add("active");
-        scrollToBottom();
-      } else {
-        typing.classList.remove("active");
-      }
-    }
-  }
-
-  // Add Bot Response to Chat UI (clean message bubble, no time code)
-  function addBotMessage(htmlContent, quickActions = []) {
-    showTyping(true);
-    const delay = Math.min(1100, Math.max(500, htmlContent.length * 5));
-
-    setTimeout(() => {
-      showTyping(false);
-      const botRow = document.createElement("div");
-      botRow.className = "message-row bot";
-
-      let actionsHTML = "";
-      if (quickActions.length > 0) {
-        actionsHTML = `<div class="quick-actions">` +
-          quickActions.map(a => `<button class="quick-button" data-action="${a.action}">${a.label}</button>`).join("") +
-          `</div>`;
-      }
-
-      botRow.innerHTML = `
-        <div class="message bot-message">${htmlContent}</div>
-        ${actionsHTML}
-      `;
-
-      const typing = document.getElementById("typingIndicator");
       chatBody.insertBefore(botRow, typing);
-      attachQuickButtonListeners();
-      scrollToBottom();
-    }, delay);
-  }
-
-  // Action responses
-  function respondToAction(action, text) {
-    switch (action) {
-      case "appointment":
-        addBotMessage(
-          `I can help schedule your appointment at AdventHealth Porter! What type of specialty or care do you need?`,
-          [
-            { action: "care_primary", label: "🩺 Primary Care" },
-            { action: "care_cardio", label: "❤️ Cardiology" },
-            { action: "care_ortho", label: "🦴 Orthopedics & Spine" },
-            { action: "care_transplant", label: "🔄 Transplant Services" },
-            { action: "open_modal", label: "📝 Open Scheduling Form" }
-          ]
-        );
-        break;
-
-      case "open_modal":
-        addBotMessage(`Opening the appointment booking form on your screen right now...`);
-        setTimeout(() => {
-          window.openAppointmentModal();
-        }, 600);
-        break;
-
-      case "care_primary":
-        addBotMessage(
-          `Our <strong>Primary Care</strong> physicians at AdventHealth Porter emphasize whole-person wellness, prevention, and ongoing chronic care for the entire family.<br><br>• Same-day & next-day visits available<br>• In-person and Virtual Care telehealth visits<br><br>Would you like to schedule with a primary care doctor now?`,
-          [
-            { action: "open_modal", label: "📅 Schedule Primary Care" },
-            { action: "call_scheduling", label: "📞 Call (303) 778-1955" },
-            { action: "location", label: "📍 Clinic Location" }
-          ]
-        );
-        break;
-
-      case "care_ortho":
-        addBotMessage(
-          `AdventHealth Porter is renowned for <strong>Orthopedics & Spine</strong> care, featuring Mako™ robotic-assisted hip and knee replacements, spine surgery, and sports medicine under orthopedic leaders like <strong>Dr. Marcus Vance, MD</strong>.<br><br>Would you like to consult with our joint replacement & orthopedic team?`,
-          [
-            { action: "open_modal", label: "📅 Schedule Ortho Consult" },
-            { action: "call_scheduling", label: "📞 Call (303) 778-1955" },
-            { action: "location", label: "📍 Center for Joint Replacement" }
-          ]
-        );
-        break;
-
-      case "care_cardio":
-        addBotMessage(
-          `The <strong>Porter Heart & Vascular Institute</strong> offers world-class cardiology, cardiac catheterization, minimally invasive valve repair (TAVR), and thoracic surgery led by <strong>Dr. David Chen, MD, FACS</strong>.<br><br>• Accredited Chest Pain Center<br>• Dedicated Cardiovascular ICU`,
-          [
-            { action: "open_modal", label: "📅 Schedule Heart Consult" },
-            { action: "er", label: "🚑 Emergency Cardiac Care" },
-            { action: "call_scheduling", label: "📞 Call (303) 778-1955" }
-          ]
-        );
-        break;
-
-      case "care_neuro":
-        addBotMessage(
-          `Our <strong>Neurosciences & Spine Institute</strong> provides advanced diagnosis and compassionate treatment for spine disorders, stroke, neuropathy, and complex cranial conditions in Denver.<br><br>Would you like to book a neurological consultation?`,
-          [
-            { action: "open_modal", label: "📅 Schedule Neuro Consult" },
-            { action: "call_scheduling", label: "📞 Call (303) 778-1955" }
-          ]
-        );
-        break;
-
-      case "specialist":
-      case "care_transplant":
-        addBotMessage(
-          `AdventHealth Porter features board-certified physicians in Denver. You can view our available physicians below or book directly:
-          <br><br>
-          • <strong>Dr. David Chen, MD, FACS</strong> (Cardiothoracic Surgery)<br>
-          • <strong>Dr. Sarah Lewis, MD</strong> (Kidney & Liver Transplant)<br>
-          • <strong>Dr. Marcus Vance, MD</strong> (Orthopedic Surgery & Joint Replacement)<br>
-          • <strong>Dr. Elena Rodriguez, MD</strong> (Medical Oncology)
-          <br><br>
-          Would you like to book with one of our doctors or speak with patient scheduling at <strong>(303) 778-1955</strong>?`,
-          [
-            { action: "open_modal", label: "📅 Schedule Now" },
-            { action: "call_scheduling", label: "📞 Call (303) 778-1955" },
-            { action: "location", label: "📍 Where is the clinic?" }
-          ]
-        );
-        break;
-
-      case "billing":
-        addBotMessage(
-          `AdventHealth Porter accepts Medicare, Colorado Medicaid, and most major commercial insurances (Aetna, Anthem BCBS, Cigna, UnitedHealthcare, Humana).
-          <br><br>
-          • <strong>Pay Online:</strong> Access your AdventHealth Account to review statements.<br>
-          • <strong>Financial Assistance:</strong> We offer flexible, interest-free payment plans and charity care options.<br>
-          • <strong>Billing Phone:</strong> (303) 778-5700`,
-          [
-            { action: "appointment", label: "📅 Book Care" },
-            { action: "location", label: "📍 Campus Map" }
-          ]
-        );
-        break;
-
-      case "location":
-        addBotMessage(
-          `<strong>AdventHealth Porter</strong><br>
-          📍 <strong>Address:</strong> 2525 South Downing Street, Denver, CO 80210<br>
-          📞 <strong>Main Hospital:</strong> (303) 778-1955<br><br>
-          • <strong>Complimentary Valet:</strong> Available at the Main Entrance Monday–Friday, 7:00 AM – 5:00 PM.<br>
-          • <strong>Visitor Parking Garage:</strong> Located adjacent to the hospital on East Harvard Ave (Free for patients & visitors).<br>
-          • <strong>Light Rail:</strong> University of Denver (DU) Station on E and H lines with RTD bus connections.`,
-          [
-            { action: "er", label: "🚑 Where is the ER entrance?" },
-            { action: "visiting", label: "⏰ Visiting Hours" }
-          ]
-        );
-        break;
-
-      case "er":
-        addBotMessage(
-          `🚑 <strong>24/7 Emergency Room & Level III Trauma Center</strong><br><br>
-          Our Emergency Department is open 24 hours a day, 365 days a year with dedicated trauma, chest pain, and stroke teams.<br>
-          • <strong>Current Estimated Triage Time:</strong> ~8 - 11 minutes.<br>
-          • <strong>ER Entrance:</strong> Located on the east wing off S. Downing St & E. Harvard Ave.<br><br>
-          ⚠️ <em>If you are experiencing a life-threatening emergency, please dial 911 immediately.</em>`,
-          [
-            { action: "location", label: "📍 Get Directions" },
-            { action: "visiting", label: "⏰ Visitor Policy" }
-          ]
-        );
-        break;
-
-      case "visiting":
-        addBotMessage(
-          `<strong>Patient & Visitor Hours:</strong><br>
-          ⏰ <strong>General Inpatient Units:</strong> 8:00 AM – 8:00 PM daily.<br>
-          • <strong>Intensive Care Unit (ICU):</strong> Specialized hours, 2 visitors at a time.<br>
-          • <strong>Overnight Visitors:</strong> 1 designated support person allowed per private room.<br>
-          • <strong>Masks:</strong> Recommended for symptomatic visitors; complimentary masks available at every entrance.`,
-          [
-            { action: "location", label: "📍 Parking Information" },
-            { action: "appointment", label: "📅 Book an Appointment" }
-          ]
-        );
-        break;
-
-      case "call_scheduling":
-        addBotMessage(
-          `You can reach our centralized patient scheduling line directly at <a href="tel:3037781955"><strong>(303) 778-1955</strong></a> (Mon–Fri, 7:30 AM – 5:30 PM MT).`
-        );
-        break;
-
-      default:
-        addBotMessage(
-          `I'm here to assist! Would you like to schedule an appointment, check emergency services, or find a doctor?`,
-          [
-            { action: "appointment", label: "📅 Book an Appointment" },
-            { action: "specialist", label: "🩺 Find a Specialist" },
-            { action: "location", label: "📍 Location & Parking" }
-          ]
-        );
-    }
-  }
-
-  // Natural Language Understanding keyword handler
-  function processUserText(rawText) {
-    const text = rawText.toLowerCase();
-
-    if (text.includes("appoint") || text.includes("book") || text.includes("schedule") || text.includes("see a doctor")) {
-      respondToAction("appointment", rawText);
-    } else if (text.includes("er") || text.includes("emergency") || text.includes("trauma") || text.includes("urgent") || text.includes("wait")) {
-      respondToAction("er", rawText);
-    } else if (text.includes("doctor") || text.includes("specialist") || text.includes("physician") || text.includes("surgeon")) {
-      respondToAction("specialist", rawText);
-    } else if (text.includes("where") || text.includes("address") || text.includes("location") || text.includes("park") || text.includes("direction") || text.includes("map")) {
-      respondToAction("location", rawText);
-    } else if (text.includes("bill") || text.includes("insurance") || text.includes("cost") || text.includes("pay") || text.includes("medicare") || text.includes("medicaid")) {
-      respondToAction("billing", rawText);
-    } else if (text.includes("hour") || text.includes("visit") || text.includes("visitor") || text.includes("guest")) {
-      respondToAction("visiting", rawText);
-    } else if (text.includes("transplant") || text.includes("kidney") || text.includes("liver")) {
-      addBotMessage(
-        `AdventHealth Porter is home to the Rocky Mountain region's premier <strong>Centura / AdventHealth Transplant Institute</strong>, performing award-winning adult kidney, liver, and living donor transplants for over 35 years.<br><br>For direct transplant referral and inquiries, call <strong>(303) 778-5797</strong>.`,
-        [
-          { action: "appointment", label: "📅 Request Consultation" },
-          { action: "location", label: "📍 Location & Directions" }
-        ]
-      );
-    } else if (text.includes("heart") || text.includes("cardio") || text.includes("vascular")) {
-      respondToAction("care_cardio", rawText);
-    } else if (text.includes("ortho") || text.includes("bone") || text.includes("joint") || text.includes("knee") || text.includes("hip")) {
-      respondToAction("care_ortho", rawText);
-    } else if (text.includes("neuro") || text.includes("brain") || text.includes("spine")) {
-      respondToAction("care_neuro", rawText);
-    } else if (text.includes("primary") || text.includes("general") || text.includes("family medicine") || text.includes("checkup")) {
-      respondToAction("care_primary", rawText);
-    } else if (text.includes("hello") || text.includes("hi") || text.includes("hey") || text.includes("good morning") || text.includes("good afternoon")) {
-      addBotMessage(
-        `Hello there! 👋 Welcome to AdventHealth Porter. How can I assist you with your health care needs today?`,
-        [
-          { action: "appointment", label: "📅 Book an Appointment" },
-          { action: "specialist", label: "🩺 Find a Specialist" },
-          { action: "er", label: "🚑 ER Wait Times" }
-        ]
-      );
     } else {
-      // General fallback
-      addBotMessage(
-        `Thank you for reaching out. At AdventHealth Porter in Denver, CO, we are dedicated to providing whole-person care for body, mind, and spirit.
-        <br><br>
-        How may I direct you?`,
-        [
-          { action: "appointment", label: "📅 Book an Appointment" },
-          { action: "specialist", label: "🩺 Find a Doctor" },
-          { action: "location", label: "📍 Location & Parking" },
-          { action: "billing", label: "💳 Insurance & Billing" }
-        ]
-      );
+      chatBody.appendChild(botRow);
     }
-  }
+    scrollToBottom();
+  };
 
   function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
@@ -378,9 +135,6 @@ function initChatbot() {
     div.innerText = str;
     return div.innerHTML;
   }
-
-  // Initial listener attachment
-  attachQuickButtonListeners();
 }
 
 /* ==========================================================================

@@ -719,7 +719,6 @@
 
         addUserMessage(query);
         chatInput.value = "";
-        processUserText(query);
       }
 
       sendButton.addEventListener("click", handleSendMessage);
@@ -745,237 +744,30 @@
         `;
 
         const typing = document.getElementById("typingIndicator");
-        chatBody.insertBefore(userRow, typing);
+        if (typing) {
+          chatBody.insertBefore(userRow, typing);
+        } else {
+          chatBody.appendChild(userRow);
+        }
         scrollToBottom();
       }
 
-      // Toggle typing indicator
-      function showTyping(show) {
+      // Optional helper to append bot message (only when called externally, not automatic)
+      window.addBotMessage = function(htmlContent) {
+        const botRow = document.createElement("div");
+        botRow.className = "message-row bot";
+        botRow.innerHTML = `
+          <div class="message bot-message">${htmlContent}</div>
+        `;
+
         const typing = document.getElementById("typingIndicator");
         if (typing) {
-          if (show) {
-            typing.classList.add("active");
-            scrollToBottom();
-          } else {
-            typing.classList.remove("active");
-          }
-        }
-      }
-
-      // Append bot response with typing delay (clean message bubble, no time code)
-      function addBotMessage(htmlContent, quickActions = []) {
-        showTyping(true);
-        const delay = Math.min(1000, Math.max(500, htmlContent.length * 4));
-
-        setTimeout(() => {
-          showTyping(false);
-          const botRow = document.createElement("div");
-          botRow.className = "message-row bot";
-
-          let actionsHTML = "";
-          if (quickActions.length > 0) {
-            actionsHTML = `<div class="quick-actions">` +
-              quickActions.map(a => `<button class="quick-button" data-action="${a.action}">${a.label}</button>`).join("") +
-              `</div>`;
-          }
-
-          botRow.innerHTML = `
-            <div class="message bot-message">${htmlContent}</div>
-            ${actionsHTML}
-          `;
-
-          const typing = document.getElementById("typingIndicator");
           chatBody.insertBefore(botRow, typing);
-          attachQuickButtonListeners();
-          scrollToBottom();
-        }, delay);
-      }
-
-      // Dynamic Action Responses
-      function respondToAction(action, text) {
-        switch (action) {
-          case "appointment":
-            addBotMessage(
-              `I can help schedule your appointment at AdventHealth Porter! What type of specialty or care do you need?`,
-              [
-                { action: "care_primary", label: "🩺 Primary Care" },
-                { action: "care_cardio", label: "❤️ Cardiology" },
-                { action: "care_ortho", label: "🦴 Orthopedics & Spine" },
-                { action: "care_neuro", label: "🧠 Neurosciences" },
-                { action: "care_transplant", label: "🔄 Transplant Services" }
-              ]
-            );
-            break;
-
-          case "care_primary":
-            addBotMessage(
-              `Our <strong>Primary Care</strong> physicians at AdventHealth Porter emphasize whole-person wellness, prevention, and routine family medicine.<br><br>• Same-day & next-day visits available<br>• In-person and Virtual Care visits<br><br>Call scheduling at <a href="tel:3037781955"><strong>(303) 778-1955</strong></a> or visit our reception desk.`,
-              [
-                { action: "location", label: "📍 Clinic Location" },
-                { action: "specialist", label: "🩺 Find a Doctor" }
-              ]
-            );
-            break;
-
-          case "care_ortho":
-            addBotMessage(
-              `AdventHealth Porter is renowned for <strong>Orthopedics & Spine</strong> care, featuring Mako™ robotic joint replacement and sports rehabilitation under orthopedic surgeons like <strong>Dr. Marcus Vance, MD</strong>.`,
-              [
-                { action: "appointment", label: "📅 Schedule Consult" },
-                { action: "location", label: "📍 Where to Park" }
-              ]
-            );
-            break;
-
-          case "care_cardio":
-            addBotMessage(
-              `The <strong>Porter Heart & Vascular Institute</strong> provides world-class cardiology, cardiac catheterization, minimally invasive valve repair (TAVR), and thoracic surgery led by <strong>Dr. David Chen, MD, FACS</strong>.<br><br>• Accredited Chest Pain Center<br>• Dedicated Cardiovascular ICU`,
-              [
-                { action: "appointment", label: "📅 Book Cardiology Consult" },
-                { action: "er", label: "🚑 Emergency Cardiac Care" }
-              ]
-            );
-            break;
-
-          case "care_neuro":
-            addBotMessage(
-              `Our <strong>Neurosciences & Spine Institute</strong> provides advanced diagnosis and treatment for spine disorders, stroke, neuropathy, and complex cranial conditions in Denver.`,
-              [
-                { action: "appointment", label: "📅 Schedule Neuro Consult" },
-                { action: "location", label: "📍 Clinic Location" }
-              ]
-            );
-            break;
-
-          case "specialist":
-          case "care_transplant":
-            addBotMessage(
-              `AdventHealth Porter features board-certified physicians in Denver:<br><br>
-              • <strong>Dr. David Chen, MD, FACS</strong> (Cardiothoracic Surgery)<br>
-              • <strong>Dr. Sarah Lewis, MD</strong> (Kidney & Liver Transplant)<br>
-              • <strong>Dr. Marcus Vance, MD</strong> (Orthopedic Surgery & Joint Replacement)<br>
-              • <strong>Dr. Elena Rodriguez, MD</strong> (Medical Oncology)<br><br>
-              Would you like to connect with patient scheduling at <strong>(303) 778-1955</strong>?`,
-              [
-                { action: "appointment", label: "📅 Request Appointment" },
-                { action: "location", label: "📍 Campus Map" }
-              ]
-            );
-            break;
-
-          case "billing":
-            addBotMessage(
-              `AdventHealth Porter accepts Medicare, Colorado Medicaid, and most major commercial insurances (Aetna, Anthem BCBS, Cigna, UnitedHealthcare, Humana).<br><br>
-              • <strong>Pay Online:</strong> Access your MyAdventHealth patient portal.<br>
-              • <strong>Financial Assistance:</strong> Interest-free payment plans are available.<br>
-              • <strong>Billing Inquiries:</strong> (303) 778-5700`,
-              [
-                { action: "appointment", label: "📅 Book Care" },
-                { action: "location", label: "📍 Campus Map" }
-              ]
-            );
-            break;
-
-          case "location":
-            addBotMessage(
-              `<strong>AdventHealth Porter</strong><br>
-              📍 <strong>Address:</strong> 2525 South Downing Street, Denver, CO 80210<br>
-              📞 <strong>Main Hospital:</strong> (303) 778-1955<br><br>
-              • <strong>Complimentary Valet:</strong> Available at the Main Entrance Mon–Fri, 7:00 AM – 5:00 PM.<br>
-              • <strong>Visitor Parking Garage:</strong> Free parking adjacent on East Harvard Ave.<br>
-              • <strong>Transit:</strong> Near RTD DU Light Rail Station (E & H Lines).`,
-              [
-                { action: "er", label: "🚑 Where is the ER entrance?" },
-                { action: "visiting", label: "⏰ Visiting Hours" }
-              ]
-            );
-            break;
-
-          case "er":
-            addBotMessage(
-              `🚑 <strong>24/7 Emergency Room & Level III Trauma Center</strong><br><br>
-              Our emergency department is open 24 hours a day with dedicated trauma, chest pain, and stroke teams.<br>
-              • <strong>Current Estimated Triage Time:</strong> ~8 - 11 minutes.<br>
-              • <strong>ER Entrance:</strong> Located on the east wing off S. Downing St & E. Harvard Ave.<br><br>
-              ⚠️ <em>If you are experiencing a life-threatening emergency, please dial 911 immediately.</em>`,
-              [
-                { action: "location", label: "📍 Get Directions" },
-                { action: "visiting", label: "⏰ Visitor Policy" }
-              ]
-            );
-            break;
-
-          case "visiting":
-            addBotMessage(
-              `<strong>Patient & Visitor Hours:</strong><br>
-              ⏰ <strong>General Inpatient Units:</strong> 8:00 AM – 8:00 PM daily.<br>
-              • <strong>ICU:</strong> Specialized hours, 2 visitors at a time.<br>
-              • <strong>Overnight Visitors:</strong> 1 designated support person allowed per room.<br>
-              • <strong>Masks:</strong> Complimentary masks available at all entrances.`,
-              [
-                { action: "location", label: "📍 Parking Information" },
-                { action: "appointment", label: "📅 Book an Appointment" }
-              ]
-            );
-            break;
-
-          default:
-            addBotMessage(
-              `I'm here to help! Would you like to schedule an appointment, check emergency services, or locate a doctor?`,
-              [
-                { action: "appointment", label: "📅 Book an Appointment" },
-                { action: "specialist", label: "🩺 Find a Specialist" },
-                { action: "location", label: "📍 Location & Parking" }
-              ]
-            );
-        }
-      }
-
-      // Natural Language Text Keyword Processing
-      function processUserText(rawText) {
-        const text = rawText.toLowerCase();
-
-        if (text.includes("appoint") || text.includes("book") || text.includes("schedule") || text.includes("see a doctor")) {
-          respondToAction("appointment", rawText);
-        } else if (text.includes("er") || text.includes("emergency") || text.includes("trauma") || text.includes("urgent") || text.includes("wait")) {
-          respondToAction("er", rawText);
-        } else if (text.includes("doctor") || text.includes("specialist") || text.includes("physician") || text.includes("surgeon")) {
-          respondToAction("specialist", rawText);
-        } else if (text.includes("where") || text.includes("address") || text.includes("location") || text.includes("park") || text.includes("direction") || text.includes("map")) {
-          respondToAction("location", rawText);
-        } else if (text.includes("bill") || text.includes("insurance") || text.includes("cost") || text.includes("pay") || text.includes("medicare") || text.includes("medicaid")) {
-          respondToAction("billing", rawText);
-        } else if (text.includes("hour") || text.includes("visit") || text.includes("visitor") || text.includes("guest")) {
-          respondToAction("visiting", rawText);
-        } else if (text.includes("heart") || text.includes("cardio") || text.includes("vascular")) {
-          respondToAction("care_cardio", rawText);
-        } else if (text.includes("ortho") || text.includes("bone") || text.includes("joint") || text.includes("knee") || text.includes("hip")) {
-          respondToAction("care_ortho", rawText);
-        } else if (text.includes("neuro") || text.includes("brain") || text.includes("spine")) {
-          respondToAction("care_neuro", rawText);
-        } else if (text.includes("primary") || text.includes("general") || text.includes("checkup")) {
-          respondToAction("care_primary", rawText);
-        } else if (text.includes("hello") || text.includes("hi") || text.includes("hey")) {
-          addBotMessage(
-            `Hello there! 👋 Welcome to AdventHealth Porter. How can I assist you with your health care needs today?`,
-            [
-              { action: "appointment", label: "📅 Book an Appointment" },
-              { action: "specialist", label: "🩺 Find a Specialist" },
-              { action: "er", label: "🚑 ER Wait Times" }
-            ]
-          );
         } else {
-          addBotMessage(
-            `Thank you for reaching out. How can I best assist you today?`,
-            [
-              { action: "appointment", label: "📅 Book an Appointment" },
-              { action: "specialist", label: "🩺 Find a Doctor" },
-              { action: "location", label: "📍 Location & Parking" },
-              { action: "billing", label: "💳 Insurance & Billing" }
-            ]
-          );
+          chatBody.appendChild(botRow);
         }
-      }
+        scrollToBottom();
+      };
 
       function scrollToBottom() {
         chatBody.scrollTop = chatBody.scrollHeight;
@@ -986,9 +778,6 @@
         div.innerText = str;
         return div.innerHTML;
       }
-
-      // Initial listener attachment
-      attachQuickButtonListeners();
     }
   </script>
 
