@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -187,6 +188,7 @@
         opacity: 0;
         transform: translateY(15px) scale(0.97);
       }
+
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -305,8 +307,15 @@
     }
 
     @keyframes messageAppear {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .message-row.bot {
@@ -428,10 +437,14 @@
     }
 
     @keyframes typing {
-      0%, 60%, 100% {
+
+      0%,
+      60%,
+      100% {
         transform: translateY(0);
         opacity: 0.4;
       }
+
       30% {
         transform: translateY(-4px);
         opacity: 1;
@@ -552,7 +565,9 @@
     <div class="demo-badge">All-in-One Standalone File</div>
     <h1>Olivia · Virtual Assistant</h1>
     <p>
-      This is a single self-contained HTML file featuring the complete <strong>Olivia Virtual Assistant</strong> chatbot, including styles, floating launcher, sample dialogue, quick action buttons, and intelligent response engine.
+      This is a single self-contained HTML file featuring the complete <strong>Olivia Virtual Assistant</strong>
+      chatbot, including styles, floating launcher, sample dialogue, quick action buttons, and intelligent response
+      engine.
     </p>
     <button class="demo-btn" onclick="toggleChat()">
       💬 Click Here to Open Chatbot
@@ -574,7 +589,7 @@
         </div>
         <div>
           <div class="assistant-name">Olivia · Virtual Assistant</div>
-          <div class="assistant-subtitle">Virtual Care & Scheduling</div>
+          <div class="assistant-subtitle">Appointment Scheduling</div>
         </div>
       </div>
 
@@ -583,6 +598,11 @@
         <button class="header-btn" title="Close" onclick="toggleChat()">✕</button>
       </div>
     </div>
+
+
+
+
+
 
     <!-- CHAT BODY -->
     <div class="chat-body" id="chatBody">
@@ -607,38 +627,6 @@
         </div>
       </div>
 
-      <!-- SAMPLE USER MESSAGE -->
-      <div class="message-row user">
-        <div class="message-meta">
-          <span>You</span>
-          <span>·</span>
-          <span>11:30 AM</span>
-        </div>
-        <div class="message user-message">
-          I would like to book an appointment.
-        </div>
-      </div>
-
-      <!-- SAMPLE BOT MESSAGE -->
-      <div class="message-row bot">
-        <div class="message-meta">
-          <span>Olivia</span>
-          <span>·</span>
-          <span>11:30 AM</span>
-        </div>
-        <div class="message bot-message">
-          Absolutely. I can help you with that.
-          <br><br>
-          What type of care are you looking for?
-        </div>
-        <div class="quick-actions">
-          <button class="quick-button" data-action="care_primary">🩺 Primary Care</button>
-          <button class="quick-button" data-action="care_ortho">🦴 Orthopedics</button>
-          <button class="quick-button" data-action="care_cardio">❤️ Cardiology</button>
-          <button class="quick-button" data-action="care_neuro">🧠 Neurosciences</button>
-        </div>
-      </div>
-
       <!-- TYPING INDICATOR -->
       <div class="typing" id="typingIndicator">
         <div class="typing-dots">
@@ -653,12 +641,7 @@
 
     <!-- INPUT AREA -->
     <div class="chat-input-area">
-      <input
-        class="chat-input"
-        id="chatInput"
-        type="text"
-        placeholder="Ask Olivia or type your request..."
-      />
+      <input class="chat-input" id="chatInput" type="text" placeholder="Type your message here..." />
       <button class="send-button" id="sendButton" aria-label="Send message">
         ➤
       </button>
@@ -678,13 +661,9 @@
        ========================================================================== -->
   <div class="chat-launcher">
     <div class="launcher-label" onclick="toggleChat()">
-      Need help? Chat with Olivia
+      Book Your Appointment Today!
     </div>
-    <button
-      class="launcher-button"
-      onclick="toggleChat()"
-      aria-label="Open chat"
-    >
+    <button class="launcher-button" onclick="toggleChat()" aria-label="Open chat">
       <span class="launcher-icon">💬</span>
       <span class="online-dot"></span>
     </button>
@@ -727,42 +706,10 @@
             <button class="quick-button" data-action="location">📍 Location & Parking</button>
           </div>
         </div>
-
-        <!-- SAMPLE USER MESSAGE -->
-        <div class="message-row user">
-          <div class="message-meta">
-            <span>You</span>
-            <span>·</span>
-            <span>11:30 AM</span>
-          </div>
-          <div class="message user-message">
-            I would like to book an appointment.
-          </div>
-        </div>
-
-        <!-- SAMPLE BOT MESSAGE -->
-        <div class="message-row bot">
-          <div class="message-meta">
-            <span>Olivia</span>
-            <span>·</span>
-            <span>11:30 AM</span>
-          </div>
-          <div class="message bot-message">
-            Absolutely. I can help you with that.
-            <br><br>
-            What type of care are you looking for?
-          </div>
-          <div class="quick-actions">
-            <button class="quick-button" data-action="care_primary">🩺 Primary Care</button>
-            <button class="quick-button" data-action="care_ortho">🦴 Orthopedics</button>
-            <button class="quick-button" data-action="care_cardio">❤️ Cardiology</button>
-            <button class="quick-button" data-action="care_neuro">🧠 Neurosciences</button>
-          </div>
-        </div>
       `;
 
       // Reset chat to initial state
-      window.resetChat = function() {
+      window.resetChat = function () {
         chatBody.innerHTML = initialBotHTML + `
           <div class="typing" id="typingIndicator">
             <div class="typing-dots">
@@ -777,7 +724,7 @@
       };
 
       // Toggle chat window open / closed
-      window.toggleChat = function() {
+      window.toggleChat = function () {
         chatWindow.classList.toggle("active");
         if (chatWindow.classList.contains("active")) {
           setTimeout(() => {
@@ -1098,4 +1045,5 @@
   </script>
 
 </body>
+
 </html>

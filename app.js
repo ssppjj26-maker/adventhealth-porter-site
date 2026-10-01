@@ -45,38 +45,6 @@ function initChatbot() {
         <button class="quick-button" data-action="location">📍 Location & Parking</button>
       </div>
     </div>
-
-    <!-- SAMPLE USER MESSAGE -->
-    <div class="message-row user">
-      <div class="message-meta">
-        <span>You</span>
-        <span>·</span>
-        <span>11:30 AM</span>
-      </div>
-      <div class="message user-message">
-        I would like to book an appointment.
-      </div>
-    </div>
-
-    <!-- SAMPLE BOT MESSAGE -->
-    <div class="message-row bot">
-      <div class="message-meta">
-        <span>Olivia</span>
-        <span>·</span>
-        <span>11:30 AM</span>
-      </div>
-      <div class="message bot-message">
-        Absolutely. I can help you with that.
-        <br><br>
-        What type of care are you looking for?
-      </div>
-      <div class="quick-actions">
-        <button class="quick-button" data-action="care_primary">🩺 Primary Care</button>
-        <button class="quick-button" data-action="care_ortho">🦴 Orthopedics</button>
-        <button class="quick-button" data-action="care_cardio">❤️ Cardiology</button>
-        <button class="quick-button" data-action="care_neuro">🧠 Neurosciences</button>
-      </div>
-    </div>
   `;
 
   // Reset to initial state
