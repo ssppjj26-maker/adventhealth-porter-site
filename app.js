@@ -24,9 +24,12 @@ function initChatbot() {
   const restartButton = document.getElementById("restartChatBtn");
   const typingIndicator = document.getElementById("typingIndicator");
 
-  // Reset chat to empty state
+  // Reset chat to initial state
   window.resetChat = function() {
     chatBody.innerHTML = `
+      <div class="message-row bot">
+        <div class="message bot-message">Hi there! 👋</div>
+      </div>
       <!-- TYPING INDICATOR -->
       <div class="typing" id="typingIndicator">
         <div class="typing-dots">

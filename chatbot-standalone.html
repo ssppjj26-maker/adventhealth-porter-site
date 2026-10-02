@@ -620,6 +620,11 @@
     <!-- CHAT BODY -->
     <div class="chat-body" id="chatBody">
 
+      <!-- INITIAL FIXED MESSAGE -->
+      <div class="message-row bot">
+        <div class="message bot-message">Hi there! 👋</div>
+      </div>
+
       <!-- TYPING INDICATOR -->
       <div class="typing" id="typingIndicator">
         <div class="typing-dots">
@@ -678,9 +683,12 @@
       const sendButton = document.getElementById("sendButton");
       const restartButton = document.getElementById("restartChatBtn");
 
-      // Reset chat to empty state
+      // Reset chat to initial state
       window.resetChat = function () {
         chatBody.innerHTML = `
+          <div class="message-row bot">
+            <div class="message bot-message">Hi there! 👋</div>
+          </div>
           <div class="typing" id="typingIndicator">
             <div class="typing-dots">
               <span></span>
